@@ -1,9 +1,10 @@
 [tool.poetry]
-name = "PROJECT-NAME"
+name = "python_project_template"
 version = "0.1.0"
 description = "A template python project"
 authors = ["difegam <difegam3@gmail.com>"]
 readme = "README.md"
+packages = [{ include = "python_project_template", from = "src" }]
 
 include = ["CHANGELOG.md", "LICENSE"]
 license = "MIT"
@@ -26,9 +27,17 @@ keywords = [
 [tool.poetry.dependencies]
 python = "^3.10"
 
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.1"
+mypy = "^1.11.0"
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
-PROJECT-NAME = "PROJECT-NAME.__main__:main"
+app = "src.python_project_template.__main__:main"
+
+[tool.pytest.ini_options]
+addopts = "-vvv"
+testpaths = "tests"

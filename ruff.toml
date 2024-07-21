@@ -3,9 +3,9 @@
 # Same as Black
 line-length = 100
 indent-width = 4
-target-version = "py10"
+target-version = "py310"
 show-fixes = true
-extend-exclude = [".venv", "logs"]
+extend-exclude = [".venv", "logs", "__pycache__", "build", "dist"]
 
 [format]
 preview = true
@@ -59,6 +59,7 @@ ignore = [
     "ANN102", # Missing type annotation for `cls` in classmethod
     "N806",   # Variable in function should be lowercase
     "S101",   # Use of `assert` detected
+    "T201",   # print statement
 
 ]
 fixable = ["ALL"]
