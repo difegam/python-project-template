@@ -1,7 +1,7 @@
 set windows-shell := ["powershell.exe", "-NoLogo", "-Command"]
 set dotenv-load := true
 
-PYMODULE := project_name
+PYMODULE := "project_name"
 POETRY_URL := "https://python-poetry.org/docs/#enable-tab-completion-for-bash-fish-or-zsh"
 
 # Available recipes
@@ -28,3 +28,6 @@ install:
     poetry run pre-commit install
     poetry run poetry-dynamic-versioning
 
+# 🐳 Build docker image
+docker-build:
+    docker build -t pytemplate .
