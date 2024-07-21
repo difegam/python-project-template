@@ -1,30 +1,77 @@
+default_language_version:
+  python: python3.10
+exclude: ^(docs|\.venv|\.vscode)/
+
+default_stages: [commit, push]
+
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: "v4.6.0"
     hooks:
+      - id: trailing-whitespace
+      - id: mixed-line-ending
       - id: check-added-large-files
-      - id: check-toml
+        args: ['--maxkb=1000']
+      - id: end-of-file-fixer
       - id: check-yaml
+        args: ['--unsafe']
+      - id: check-json
+      - id: check-toml
+      - id: check-merge-conflict
+      - id: check-case-conflict
+      - id: check-docstring-first
+      - id: check-executables-have-shebangs
+      - id: check-shebang-scripts-are-executable
+
 
   - repo: https://github.com/charliermarsh/ruff-pre-commit
     rev: "v0.5.3"
     hooks:
       - id: ruff
+        description: "Ruff Python linter"
         args: [--fix, --exit-non-zero-on-fix]
       - id: ruff-format
+        description: "Ruff Python formatter"
+
+  - repo: https://github.com/asottile/pyupgrade
+    rev: v3.16.0
+    hooks:
+    -   id: pyupgrade
+        description: "Upgrade syntax to newer versions"
+        args: [--py310-plus, --keep-runtime-typing]
+
 
   - repo: https://github.com/pre-commit/mirrors-mypy
     rev: v1.10.1
     hooks:
       - id: mypy
+        description: "mypy static type checker"
         args: [--config-file=mypy.ini]
-        additional_dependencies: [types-all]
 
   - repo: local
     hooks:
       - id: pytest
         name: pytest
-        entry: pytest
+        description: "Run pytest"
+        entry: poetry run pytest tests
         language: system
         types: [python]
         pass_filenames: false
+        always_run: true
+
+  - repo: https://github.com/koalaman/shellcheck-precommit
+    rev: v0.10.0
+    hooks:
+    -   id: shellcheck
+        name: Check Shell Scripts
+        description: "Shell script linter"
+        args: ["--severity=warning"]
+
+  # bandit - find common security issues
+  - repo: https://github.com/pycqa/bandit
+    rev: 1.7.9
+    hooks:
+      - id: bandit
+        name: bandit
+        exclude: ^tests/
+        args: [-r, src]
