@@ -64,5 +64,8 @@ ignore = [
 ]
 fixable = ["ALL"]
 
+[lint.per-file-ignores]
+"__init__.py" = ["F403", "F405"]
+
 [lint.isort]
 known-third-party = ["REPLACE_PACKAGE_NAME"]
