@@ -1,42 +1,25 @@
-[tool.poetry]
-name = "python_project_template"
+[project]
+name = "python-project-template"
 version = "0.1.0"
 description = "A template python project"
-authors = ["difegam <difegam3@gmail.com>"]
 readme = "README.md"
-packages = [{ include = "python_project_template", from = "src" }]
+requires-python = ">=3.10"
+authors = [{ name = "Diego Gamboa", email = "difegam3@gmail.com" }]
 
-include = ["CHANGELOG.md", "LICENSE"]
 license = "MIT"
-
-keywords = [
-    "Topic :: Internet",
-    "Topic :: Software Development :: Libraries :: Application Frameworks",
-    "Topic :: Software Development :: Libraries :: Python Modules",
-    "Topic :: Software Development :: Libraries",
-    "Topic :: Software Development",
-    "Intended Audience :: Developers",
-    "License :: OSI Approved :: MIT License",
-    "Programming Language :: Python",
-    "Programming Language :: Python :: 3.8",
-    "Programming Language :: Python :: 3.9",
-    "Programming Language :: Python :: 3.10",
-    "Programming Language :: Python :: 3.11",
-]
-
-[tool.poetry.dependencies]
-python = "^3.10"
-
-[tool.poetry.group.dev.dependencies]
-pytest = "^8.3.1"
-mypy = "^1.11.0"
+dependencies = ["requests>=2.32.3"]
+[project.urls]
+Repository = "https://github.com/difegam/python-project-template"
+[project.scripts]
+app = "python_project_template:main"
+cli = "python_project_template.app:cli"
 
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
-[tool.poetry.scripts]
-app = "src.python_project_template.__main__:main"
+[tool.uv]
+dev-dependencies = ["pre-commit>=3.8.0", "pytest>=8.3.3", "ruff>=0.6.4"]
 
 [tool.pytest.ini_options]
 addopts = "-vvv"

@@ -48,16 +48,17 @@ repos:
         description: "mypy static type checker"
         args: [--config-file=mypy.ini]
 
-  - repo: local
-    hooks:
-      - id: pytest
-        name: pytest
-        description: "Run pytest"
-        entry: poetry run pytest tests
-        language: system
-        types: [python]
-        pass_filenames: false
-        always_run: true
+  # TODO: Run tests with uv
+  # - repo: local
+  #   hooks:
+  #     - id: pytest
+  #       name: pytest
+  #       description: "Run pytest"
+  #       entry: .venv/bin/python pytest tests
+  #       language: system
+  #       types: [python]
+  #       pass_filenames: false
+  #       always_run: true
 
   - repo: https://github.com/koalaman/shellcheck-precommit
     rev: v0.10.0

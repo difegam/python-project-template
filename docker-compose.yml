@@ -1,12 +1,19 @@
-version: "3.8"
+---
+name: app
 
 services:
-  app:
-    container_name: ${APP_NAME}
-    build: .
-    restart: unless-stopped
-    command: poetry run python main.py
-    volumes:
-      - .:/app
-    environment:
-      - DEBUG=0
+  python-base:
+    container_name: python-base
+    image: python-base
+    build:
+      dockerfile: Docker/pythonbase/Dockerfile
+
+  python-app:
+    container_name: python-app
+    image: python-app
+    build:
+      context: .
+      dockerfile: Docker/app/Dockerfile
+    command: -l 10
+    depends_on:
+      - python-base
