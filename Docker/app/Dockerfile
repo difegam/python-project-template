@@ -3,6 +3,8 @@ FROM python-base:latest
 # Set evnironment variables
 ENV VIRTUAL_ENV=/venv
 ENV PATH=${VIRTUAL_ENV}/bin:$PATH
+
+# Set python environment variables
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
