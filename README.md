@@ -3,7 +3,7 @@
 This is a template for a Python project. It includes a basic project structure, a Justfile with some useful commands, and a README.md template.
 
 ## Project Templates
-I have create a project structure for to different package managers, `poetry` and `uv`.
+I have created a project structure for two different package managers, `poetry` and `uv`.
 
 | Template | Description | Branch |
 | --- | --- |--|
