@@ -5,17 +5,11 @@ This is a template for a Python project. It includes a basic project structure, 
 ## Project Templates
 I have create a project structure for to different package managers, `poetry` and `uv`.
 
-### Poetry
-The `poetry` template is located in the [`poetry` branch](https://github.com/difegam/python-project-template/tree/poetry). To use it, run the following command:
-```bash
-git checkout poetry
-```
+| Template | Description | Branch |
+| --- | --- |--|
+| [uv](https://docs.astral.sh/uv/) | A high-performance Python package and project manager written in Rust. It serves as a comprehensive tool that can replace multiple existing utilities like pip, poetry, pyenv, and virtualenv. | [![uv branch](https://skillicons.dev/icons?i=git)](https://github.com/difegam/python-project-template/tree/uv) |
+| [Poetry](https://python-poetry.org/) | A Python package manager that allows you to declare the libraries your project depends on and it will manage (install/update) them for you. |[![uv branch](https://skillicons.dev/icons?i=git)](https://github.com/difegam/python-project-template/tree/poetry)|
 
-### Uv
-The `uv` template is located in the [`uv` branch](https://github.com/difegam/python-project-template/tree/uv). To use it, run the following command:
-```bash
-git checkout uv
-```
 
 
 ## Resources
