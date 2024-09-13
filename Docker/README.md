@@ -6,7 +6,7 @@
 ### Python Base Image
 first build the base image for python
 ```bash
-docker build Docker/pythonbase/ -t python-base:latest
+docker build -t python-base:latest -f ./Docker/pythonbase/Dockerfile .
 ```
 
 ### Application Image
