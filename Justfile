@@ -1,24 +1,26 @@
 set windows-shell := ["powershell.exe", "-NoLogo", "-Command"]
 set dotenv-load := true
 
-PYTHON_BASE_IMAGE := "python-base"
-APP_IMAGE := "python-app"
-
 # Available recipes
 _default:
     @just --list --unsorted --list-prefix "    > " --justfile {{justfile()}}
 
+# 📦 Create a requirements.txt from pyproject.toml
+export-requirements:
+    @echo "Exporting requirements"
+    uv pip compile pyproject.toml -o requirements.txt
+
 # 🐳 Build python base image
-docker-build-python tag="latest":
+docker-build-base *ARGS:
     @echo "Building python base image"
-    @docker build Docker/pythonbase/ -t {{PYTHON_BASE_IMAGE}}:{{tag}}
+    @./Docker/scripts/build.sh --base {{ARGS}}
 
 # 🐳 Build app image
-docker-build-app tag="latest":
+docker-build-app *ARGS:
     @echo "Building app image"
-    @docker build -t {{APP_IMAGE}}:{{tag}} -f Docker/app/Dockerfile .
+    @./Docker/scripts/build.sh --app {{ARGS}}
 
 # 🐳 Build docker images
-docker-build tag="latest":
-    @just docker-build-python {{tag}}
-    @just docker-build-app {{tag}}
+docker-build *ARGS:
+    @echo "Building docker images"
+    @./Docker/scripts/build.sh {{ARGS}}
