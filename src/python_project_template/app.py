@@ -3,7 +3,7 @@ import argparse
 import requests
 
 
-def main(limit: int = 10) -> None:
+def main(limit: int) -> None:
     response = requests.get(f"https://pokeapi.co/api/v2/pokemon?limit={limit!s}", timeout=5)
     print(f"Response status code: {response.status_code}")
     print(response.text)
@@ -19,6 +19,7 @@ def cli() -> None:
         "--limit",
         type=int,
         help="The number of items to fetch from the API",
+        required=True,
     )
     args = parser.parse_args()
     main(args.limit)
