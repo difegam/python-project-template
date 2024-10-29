@@ -21,7 +21,8 @@ COPY ${PROJECT_SRC_DIR}/requirements.txt /app/
 WORKDIR /app
 
 # Install the application dependencies
-RUN uv pip install -r requirements.txt
+RUN --mount=type=cache,target=/root/.cache uv pip install -r requirements.txt
+# RUN uv sync --frozen --no-cache
 
 # Copy the application code
 COPY ${PROJECT_SRC_DIR} /app
