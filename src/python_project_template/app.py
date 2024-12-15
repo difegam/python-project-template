@@ -4,6 +4,15 @@ import requests
 
 
 def main(limit: int) -> None:
+    """
+
+    Docstring for main.
+
+    :param limit: Description
+
+    :type limit: int
+
+    """
     response = requests.get(f"https://pokeapi.co/api/v2/pokemon?limit={limit!s}", timeout=5)
     print(f"Response status code: {response.status_code}")
     print(response.text)
@@ -26,4 +35,11 @@ def cli() -> None:
 
 
 if __name__ == "__main__":
+
+    def test(
+        a,
+        b,
+    ) -> None:
+        pass
+
     cli()

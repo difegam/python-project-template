@@ -5,6 +5,19 @@ set dotenv-load := true
 _default:
     @just --list --unsorted --list-prefix "    > " --justfile {{justfile()}}
 
+# 🏃🏽‍♂️‍➡️ Run pre-commit hooks manually
+[group('dev-tools')]
+pre-commit-check:
+    @echo "Running pre-commit hooks on all files"
+    @pre-commit run --all-files
+
+# Format in all files
+[group('dev-tools')]
+docstring-format:
+    @echo "Checking docstring format, add '--in-place' to fix"
+    @uv run docformatter -r src
+    @echo "Done"
+
 # 📦 Create a requirements.txt from pyproject.toml
 [group('requirements')]
 export-requirements:
