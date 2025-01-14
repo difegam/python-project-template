@@ -22,13 +22,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [dependency-groups]
-dev = [
-    "commitizen>=3.30.0",
-    "pre-commit>=3.8.0",
-    "pytest>=8.3.3",
-    "ruff>=0.6.4",
-    "docformatter>=1.7.5",
-]
+dev = ["pre-commit>=3.8.0", "pytest>=8.3.3", "ruff>=0.6.4"]
 
 [tool.uv]
 default-groups = ["dev"]
@@ -37,10 +31,3 @@ default-groups = ["dev"]
 addopts = "-vvv"
 testpaths = "tests"
 pythonpath = "src"
-
-[tool.commitizen]
-name = "cz_conventional_commits"
-tag_format = "0.1.0"
-version_scheme = "pep440"
-version_provider = "pep621"
-update_changelog_on_bump = true
