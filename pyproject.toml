@@ -14,8 +14,7 @@ dependencies = ["requests>=2.32.3"]
 Repository = "https://github.com/difegam/python-project-template"
 
 [project.scripts]
-app = "python_project_template:main"
-cli = "python_project_template.app:cli"
+app = "python_project_template.app:cli"
 
 [build-system]
 requires = ["hatchling"]
