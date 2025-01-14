@@ -69,10 +69,8 @@ select = [
     "YTT",  # sys.version
 ]
 ignore = [
-    "ANN101", # Missing type annotation for `self` in method
-    "ANN102", # Missing type annotation for `cls` in classmethod
-    "N806",   # Variable in function should be lowercase
-    "T201",   # print statement
+    "N806", # Variable in function should be lowercase
+    "T201", # print statement
 
 ]
 fixable = ["ALL"]
