@@ -42,8 +42,7 @@ repos:
           - "--show-fixes"
           - "--exit-non-zero-on-fix"
           # - "--unsafe-fixes"
-          - "--config=ruff.toml"
-
+          - "--config=./ruff.toml"
         types_or: [ python, pyi, jupyter ]
       - id: ruff-format
         description: "Ruff Python formatter"
@@ -55,31 +54,33 @@ repos:
     hooks:
       - id: mypy
         description: "mypy static type checker"
-        args: [--config-file=mypy.ini]
+        args: [--config-file=./mypy.ini]
 
-  # TODO: Run tests with uv
-  # - repo: local
-  #   hooks:
-  #     - id: pytest
-  #       name: pytest
-  #       description: "Run pytest"
-  #       entry: .venv/bin/python pytest tests
-  #       language: system
-  #       types: [python]
-  #       pass_filenames: false
-  #       always_run: true
+  - repo: local
+    hooks:
+      - id: pytest
+        name: pytest
+        description: "Run tests with pytest"
+        entry: uv run pytest tests
+        exclude: ^migrations
+        language: system
+        types: [python]
+        pass_filenames: false
+        # stages: [commit, push]
 
   # Scan your uv.lock file for dependencies with known vulnerabilities.
   - repo: https://github.com/owenlamont/uv-secure
     rev: 0.5.0
     hooks:
       - id: uv-secure
+        description: "Scan uv.lock for dependencies with known vulnerabilities"
 
   # Detect secrets in your codebase
   - repo: https://github.com/Yelp/detect-secrets
     rev: v1.5.0
     hooks:
     - id: detect-secrets
+      description: "Prevent secrets from being committed"
       exclude: '^$'
       args: ['--exclude-lines', '(.*)# scan:ignore']
 
@@ -88,7 +89,7 @@ repos:
     rev: 1.8.2
     hooks:
       - id: bandit
-        name: bandit
+        description: "Detect common security issues"
         exclude: ^tests/
         args: [-r, src]
 
