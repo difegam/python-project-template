@@ -13,6 +13,7 @@ indent-style = "space"
 docstring-code-format = true
 docstring-code-line-length = "dynamic"
 skip-magic-trailing-comma = false
+line-ending = "auto"
 
 
 [lint]
