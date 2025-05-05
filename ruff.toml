@@ -62,7 +62,7 @@ select = [
     "S",    # security
     "SIM",  # simplify
     "T20",  # print statements
-    "TCH",  # type-checking
+    "TC",   # type-checking
     "TID",  # tidy imports
     "UP",   # upgrade
     "W",    # style warnings
