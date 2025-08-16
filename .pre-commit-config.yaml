@@ -4,12 +4,12 @@ exclude: ^(docs|\.venv|\.vscode)/
 
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: "v5.0.0"
+    rev: 'v6.0.0'
     hooks:
       - id: trailing-whitespace
       - id: mixed-line-ending
       - id: check-added-large-files
-        args: ["--maxkb=1000"]
+        args: ['--maxkb=1000']
       - id: end-of-file-fixer
       - id: check-yaml
       - id: check-json
@@ -25,20 +25,19 @@ repos:
     rev: v3.20.0
     hooks:
       - id: pyupgrade
-        description: "Upgrade syntax to newer versions"
-        args: [--py312-plus, --keep-runtime-typing]
+        description: 'Upgrade syntax to newer versions'
+        args: [--py310-plus, --keep-runtime-typing]
 
   # Ruff Python linter and formatter
   - repo: https://github.com/charliermarsh/ruff-pre-commit
-    rev: "v0.12.4"
+    rev: 'v0.12.9'
     hooks:
-      - id: ruff-check
-        description: "Ruff linter"
-        args: ["--fix", "--config=./ruff.toml"]
+      - id: ruff
+        description: 'Ruff Python linter'
+        args: ['--fix', '--config=./ruff.toml']
         types_or: [python, pyi, jupyter]
       - id: ruff-format
-        description: "Ruff formatter"
-        args: ["--config=./ruff.toml"]
+        description: 'Ruff Python formatter'
         types_or: [python, pyi, jupyter]
 
   # Spelling checker
@@ -46,59 +45,48 @@ repos:
     rev: v2.4.1
     hooks:
       - id: codespell
-        description: "Check for common misspellings"
+        description: 'Check for common misspellings'
         files: ^.*\.(py|c|h|md|rst|ya?ml)$
 
   # Python static type checker
   - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.17.0
+    rev: v1.17.1
     hooks:
       - id: mypy
-        description: "mypy static type checker"
-        entry: uv run mypy
-        files: \.py$
-        exclude: ^tests/|^.*/mock/|^.*/utils/|^.venv/|^.*/mqtt_client.py
-        additional_dependencies:
-          - types-pyyaml
-          - pydantic
-          - pytest
+        description: 'mypy static type checker'
         args: [--config-file=./mypy.ini, --install-types, --non-interactive]
-
-  - repo: https://github.com/rohaquinlop/complexipy-pre-commit
-    rev: v3.0.0
-    hooks:
-      - id: complexipy
+        additional_dependencies: ['types-PyYAML']
 
   # Scan your uv.lock file for dependencies with known vulnerabilities.
   - repo: https://github.com/owenlamont/uv-secure
-    rev: 0.12.1
+    rev: 0.12.2
     hooks:
       - id: uv-secure
-        description: "Scan uv.lock for dependencies with known vulnerabilities"
+        description: 'Scan uv.lock for dependencies with known vulnerabilities'
 
   # Detect secrets in your codebase
   - repo: https://github.com/Yelp/detect-secrets
     rev: v1.5.0
     hooks:
       - id: detect-secrets
-        description: "Prevent secrets from being committed"
-        args: ["--exclude-lines", "(.*)# scan:ignore"]
+        description: 'Prevent secrets from being committed'
+        args: ['--exclude-lines', '(.*)# scan:ignore']
 
   # Detect common security issues in Python code.
   - repo: https://github.com/pycqa/bandit
     rev: 1.8.6
     hooks:
       - id: bandit
-        description: "Detect common security issues"
+        description: 'Detect common security issues'
         exclude: ^tests/
         args: [-r, src]
 
   # Static analysis tool for shell scripts.
   - repo: https://github.com/koalaman/shellcheck-precommit
-    rev: v0.10.0
+    rev: v0.11.0
     hooks:
       - id: shellcheck
         name: Check Shell Scripts
-        description: "Shell script linter"
-        args: ["--severity=warning"]
+        description: 'Shell script linter'
+        args: ['--severity=warning']
         types_or: [shell, sh]
