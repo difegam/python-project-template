@@ -14,7 +14,7 @@ run:
 # Run linter and formatter
 [group("qa")]
 lint:
-    uv run ruff check
+    uv run ruff check --unsafe-fixes
     uv run ruff format
 
 # Run pre-commit hooks on all files
