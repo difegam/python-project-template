@@ -20,16 +20,16 @@ preview = true
 
 # Enable rules https://docs.astral.sh/ruff/rules/
 select = [
-    "A",    # Flake8-builtins – misuse of Python built-in names
-    "ANN",  # Flake8-annotations – enforces type annotation style
-    "ARG",  # Flake8-unused-arguments – flags unused function arguments
-    "ASYNC",# Flake8-async – checks async/await usage
-    "B",    # Flake8-bugbear – common bug patterns
-    "BLE",  # Flake8-blind-except – flags bare excepts
-    "C4",   # Flake8-comprehensions – best practices in comprehensions
-    "C90",  # McCabe – complexity metric for functions
-    "COM",  # Flake8-commas – trailing/comma issues
-    "D",    # Pydocstyle – docstring formatting
+    "A",     # Flake8-builtins – misuse of Python built-in names
+    "ANN",   # Flake8-annotations – enforces type annotation style
+    "ARG",   # Flake8-unused-arguments – flags unused function arguments
+    "ASYNC", # Flake8-async – checks async/await usage
+    "B",     # Flake8-bugbear – common bug patterns
+    "BLE",   # Flake8-blind-except – flags bare excepts
+    "C4",    # Flake8-comprehensions – best practices in comprehensions
+    "C90",   # McCabe – complexity metric for functions
+    "COM",   # Flake8-commas – trailing/comma issues
+    "D",     # Pydocstyle – docstring formatting
     # "DOC",  # Pydoclint – docstring linting and consistency
     "DJ",   # Flake8-django – Django-specific conventions
     "DTZ",  # Flake8-datetimez – requires timezone-aware datetime objects
@@ -44,7 +44,6 @@ select = [
     "FURB", # Refurb – rules for code refurbishment
     "FIX",  # Flake8-fixme – flags FIXME comments
     "FBT",  # Flake8-boolean-trap – potential pitfalls with booleans
-    "RUF",  # Ruff-specific rules – additional Ruff checks
     "ICN",  # import-conventions.
     "INP",  # Flake8-no-pep420 – warns against non-PEP420 namespace usage
     "INT",  # Flake8-gettext – checks for proper internationalization usage
@@ -75,14 +74,21 @@ select = [
     "YTT",  # Flake8-2020 – checks for Python 2020 best practices
 ]
 ignore = [
-    "E501",  # Pycodestyle - line too long
-    "D1",    # Pydocstyle - missing docstring in public module, class, or function
+    "E501", # Pycodestyle - line too long (conflicts with formatter)
+    "D1",   # Pydocstyle - missing docstring in public module, class, or function
     "T201", # print statement
-    "D203",  # Pydocstyle - one blank line required before class docstring
-    "D212",  # Pydocstyle - summary line should be immediately after the opening quotes.
-    "D401",  # Pydocstyle - Checks for docstring first lines that are not in an imperative mood.
-    "S311",  # Flake8-bandit - Standard pseudo-random generators are not suitable for security/cryptographic purposes
-
+    "D203", # Pydocstyle - one blank line required before class docstring
+    "D212", # Pydocstyle - summary line should be immediately after the opening quotes.
+    "D401", # Pydocstyle - Checks for docstring first lines that are not in an imperative mood.
+    "S311", # Flake8-bandit - Standard pseudo-random generators are not suitable for security/cryptographic purposes
+    # Formatter conflicts - these rules conflict with ruff format
+    "COM812", # Trailing comma missing (conflicts with formatter)
+    "COM819", # Prohibited trailing comma (conflicts with formatter)
+    "ISC002", # Multi-line implicit string concatenation (can conflict with formatter)
+    "Q000",   # Bad quotes inline string (conflicts with formatter)
+    "Q001",   # Bad quotes multiline string (conflicts with formatter)
+    "Q002",   # Bad quotes docstring (conflicts with formatter)
+    "Q003",   # Avoidable escaped quote (conflicts with formatter)
 ]
 fixable = ["ALL"]
 unfixable = []
@@ -90,6 +96,3 @@ unfixable = []
 [lint.per-file-ignores]
 "tests/*.py" = ["S101"]      # Use of `assert` detected
 "src/__init__.py" = ["D104"]
-
-[lint.isort]
-known-third-party = ["REPLACE_PACKAGE_NAME"]
