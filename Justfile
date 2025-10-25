@@ -3,7 +3,7 @@ set dotenv-load := true
 
 # Available recipes
 @_:
-    echo "Led Controller\n"
+    echo "template\n"
     just --list
 
 # Run the application locally
