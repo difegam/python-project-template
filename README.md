@@ -1,39 +1,35 @@
-# Python Project Template 🐍
 
-This is a template for a Python project. It includes a basic project structure, a Justfile with some useful commands, and a README.md template.
+## Python Project Template 🐍
 
-## Project Templates
-I have created a project structure for two different package managers, `poetry` and `uv`.
+This repository provides a modern Python project structure with support for two package managers: [uv](https://docs.astral.sh/uv/) and [Poetry](https://python-poetry.org/). It is designed for rapid prototyping, clean organization, and developer productivity.
 
-| Template | Description | Branch |
-| --- | --- |--|
-| [uv](https://docs.astral.sh/uv/) | A high-performance Python package and project manager written in Rust. It serves as a comprehensive tool that can replace multiple existing utilities like pip, poetry, pyenv, and virtualenv. | [![uv branch](https://skillicons.dev/icons?i=git)](https://github.com/difegam/python-project-template/tree/uv) |
-| [Poetry](https://python-poetry.org/) | A Python package manager that allows you to declare the libraries your project depends on and it will manage (install/update) them for you. |[![uv branch](https://skillicons.dev/icons?i=git)](https://github.com/difegam/python-project-template/tree/poetry)|
+### Project Structure
+- **Source code:** `src/python_project_template/`
+- **Tests:** `tests/`
+- **Configuration:** Managed by either `uv` or `Poetry` (see branch)
+- **Task runner:** Uses [Justfile](https://just.systems/man/en/) for automation
+- **Pre-commit hooks:** Run with `pre-commit run --all-files`
 
+### Supported Package Managers
 
+|   Branch | Description | Package Manager |
+| --- | --- | --- |
+| [uv branch](https://github.com/difegam/python-project-template/tree/uv) | High-performance Python package/project manager written in Rust. Replaces pip, poetry, pyenv, and virtualenv. | [uv](https://docs.astral.sh/uv/) |
+| [poetry branch](https://github.com/difegam/python-project-template/tree/poetry) | Dependency management and packaging for Python projects. | [Poetry](https://python-poetry.org/) |
 
-## Resources
+### Resources
 
-### [Uv](https://docs.astral.sh/uv/)
-uv is a high-performance Python package and project manager written in Rust. It serves as a comprehensive tool that can replace multiple existing utilities like pip, poetry, pyenv, and virtualenv
+- [uv documentation](https://docs.astral.sh/uv/)
+- [Ruff documentation](https://docs.astral.sh/ruff/)
+- [Poetry documentation](https://python-poetry.org/)
+- [Justfile documentation](https://just.systems/man/en/)
+- [Gitignore generator](https://www.toptal.com/developers/gitignore)
 
-### [Ruff](https://docs.astral.sh/ruff/)
-Ruff is an exceptionally fast Python linter and code formatter written in Rust. It offers significant speed improvements, running 10-100 times faster than existing tools like Flake8 and Black.
+### Template Inspirations
 
-### [Poetry](https://python-poetry.org/)
-Poetry is a tool for dependency management and packaging in Python. It allows you to declare the libraries your project depends on and it will manage (install/update) them for you.
-
-### [Justfile](https://just.systems/man/en/)
-Just is a command runner for project-specific tasks. It is a simple tool that can be used to define and run tasks. It is a good alternative to `Makefile` and `bash` scripts.
-
-### [Gitingore generator](https://www.toptal.com/developers/gitignore)
-This website can be used to generate a `.gitignore` file for your project. It is a good practice to include a `.gitignore` file in your project to avoid committing unnecessary files to your repository.
-
-
-### Python package templates
-This project is inspired by the following Python package templates:
-
+This project is inspired by:
 - https://github.com/asmitul/python-package-template/tree/main
 - https://github.com/alvarobartt/python-package-template
 - https://github.com/Diapolo10/python-poetry-template/tree/main
+- https://github.com/smarlhens/python-boilerplate/tree/main
 - https://github.com/smarlhens/python-boilerplate/tree/main
