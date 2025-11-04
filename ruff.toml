@@ -19,80 +19,76 @@ line-ending = "auto"
 preview = true
 
 # Enable rules https://docs.astral.sh/ruff/rules/
+# Note: Removed Q, COM, ISC, W categories to avoid formatter conflicts
+# Conflicting rules are individually ignored below
 select = [
-    "A",     # Flake8-builtins – misuse of Python built-in names
-    "ANN",   # Flake8-annotations – enforces type annotation style
-    "ARG",   # Flake8-unused-arguments – flags unused function arguments
-    "ASYNC", # Flake8-async – checks async/await usage
-    "B",     # Flake8-bugbear – common bug patterns
-    "BLE",   # Flake8-blind-except – flags bare excepts
-    "C4",    # Flake8-comprehensions – best practices in comprehensions
-    "C90",   # McCabe – complexity metric for functions
-    "COM",   # Flake8-commas – trailing/comma issues
-    "D",     # Pydocstyle – docstring formatting
+    "A",      # Flake8-builtins – misuse of Python built-in names
+    "ANN",    # Flake8-annotations – enforces type annotation style
+    "ARG",    # Flake8-unused-arguments – flags unused function arguments
+    "ASYNC",  # Flake8-async – checks async/await usage
+    "B",      # Flake8-bugbear – common bug patterns
+    "BLE",    # Flake8-blind-except – flags bare excepts
+    "C4",     # Flake8-comprehensions – best practices in comprehensions
+    "C90",    # McCabe – complexity metric for functions
+    "COM818", # Flake8-commas – trailing comma on bare tuple (non-conflicting)
+    "D",      # Pydocstyle – docstring formatting
     # "DOC",  # Pydoclint – docstring linting and consistency
-    "DJ",   # Flake8-django – Django-specific conventions
-    "DTZ",  # Flake8-datetimez – requires timezone-aware datetime objects
-    "ERA",  # Eradicate – detects commented-out code (potentially dangerous)
-    "E",    # Pycodestyle errors (style issues)
-    "EM",   # Flake8-errmsg – error message style
-    "EXE",  # Flake8-executable – executable file checks
-    "FA",   # Flake8-future-annotations – future import for annotations
-    "F",    # Pyflakes – static analysis for Python code
-    "FLY",  # Flynt – f-string conversion suggestions
-    "FAST", # FastAPI – FastAPI-specific linting rules
-    "FURB", # Refurb – rules for code refurbishment
-    "FIX",  # Flake8-fixme – flags FIXME comments
-    "FBT",  # Flake8-boolean-trap – potential pitfalls with booleans
-    "ICN",  # import-conventions.
-    "INP",  # Flake8-no-pep420 – warns against non-PEP420 namespace usage
-    "INT",  # Flake8-gettext – checks for proper internationalization usage
-    "ISC",  # Flake8-implicit-str-concat – warns on implicit string concatenation
-    "LOG",  # Flake8-logging – proper logging usage
-    "N",    # PEP8 Naming – naming conventions
-    "PERF", # Perflint – performance-related checks
-    "PGH",  # Pygrep-hooks – custom grep hooks for linting
-    "PIE",  # Flake8-pie – Python improvement suggestions
-    "PL",   # Pylint – integration with Pylint conventions
-    "PT",   # Flake8-pytest-style – pytest best practices
-    "PTH",  # Flake8-use-pathlib – encourages pathlib over os.path
-    "Q",    # Flake8-quotes – enforces quote style consistency
-    "RET",  # Flake8-return – return statement issues
-    "RSE",  # Flake8-raise – proper raise statement usage
-    "RUF",  # Ruff-specific rules – additional Ruff checks
-    "S",    # Flake8-bandit – security issues
-    "SLF",  # Flake8-self – flags instance methods that don't use self
-    "SLOT", # Flake8-slots – suggests use of __slots__ where appropriate
-    "SIM",  # Flake8-simplify – code simplification hints
-    "T20",  # print statements
-    "TC",   # Flake8-type-checking – proper import of typing in type checks
-    "TID",  # Flake8-tidy-imports – enforces specific import styles (e.g., no relative imports)
-    "TD",   # Flake8-todos – flags TODO comments
-    "UP",   # Pyupgrade – upgrades syntax to newer Python versions
-    "W",    # Pycodestyle warnings (style issues)
-    "TRY",  # Tryceratops – try/except usage suggestions
-    "YTT",  # Flake8-2020 – checks for Python 2020 best practices
+    "DJ",     # Flake8-django – Django-specific conventions
+    "DTZ",    # Flake8-datetimez – requires timezone-aware datetime objects
+    "E",      # Pycodestyle errors (style issues)
+    "EM",     # Flake8-errmsg – error message style
+    "ERA",    # Eradicate – detects commented-out code (potentially dangerous)
+    "EXE",    # Flake8-executable – executable file checks
+    "F",      # Pyflakes – static analysis for Python code
+    "FA",     # Flake8-future-annotations – future import for annotations
+    "FAST",   # FastAPI – FastAPI-specific linting rules
+    "FBT",    # Flake8-boolean-trap – potential pitfalls with booleans
+    "FIX",    # Flake8-fixme – flags FIXME comments
+    "FLY",    # Flynt – f-string conversion suggestions
+    "FURB",   # Refurb – rules for code refurbishment
+    "ICN",    # import-conventions
+    "INP",    # Flake8-no-pep420 – warns against non-PEP420 namespace usage
+    "INT",    # Flake8-gettext – checks for proper internationalization usage
+    "ISC001", # Flake8-implicit-str-concat – single line implicit concatenation (non-conflicting)
+    "ISC003", # Flake8-implicit-str-concat – explicit string concatenation (non-conflicting)
+    "LOG",    # Flake8-logging – proper logging usage
+    "N",      # PEP8 Naming – naming conventions
+    "PERF",   # Perflint – performance-related checks
+    "PGH",    # Pygrep-hooks – custom grep hooks for linting
+    "PIE",    # Flake8-pie – Python improvement suggestions
+    "PL",     # Pylint – integration with Pylint conventions
+    "PT",     # Flake8-pytest-style – pytest best practices
+    "PTH",    # Flake8-use-pathlib – encourages pathlib over os.path
+    "RET",    # Flake8-return – return statement issues
+    "RSE",    # Flake8-raise – proper raise statement usage
+    "RUF",    # Ruff-specific rules – additional Ruff checks
+    "S",      # Flake8-bandit – security issues
+    "SIM",    # Flake8-simplify – code simplification hints
+    "SLF",    # Flake8-self – flags instance methods that don't use self
+    "SLOT",   # Flake8-slots – suggests use of __slots__ where appropriate
+    "T20",    # print statements
+    "TC",     # Flake8-type-checking – proper import of typing in type checks
+    "TD",     # Flake8-todos – flags TODO comments
+    "TID",    # Flake8-tidy-imports – enforces specific import styles (e.g., no relative imports)
+    "TRY",    # Tryceratops – try/except usage suggestions
+    "UP",     # Pyupgrade – upgrades syntax to newer Python versions
+    "YTT",    # Flake8-2020 – checks for Python 2020 best practices
 ]
 ignore = [
-    "E501", # Pycodestyle - line too long (conflicts with formatter)
-    "D1",   # Pydocstyle - missing docstring in public module, class, or function
-    "T201", # print statement
-    "D203", # Pydocstyle - one blank line required before class docstring
-    "D212", # Pydocstyle - summary line should be immediately after the opening quotes.
-    "D401", # Pydocstyle - Checks for docstring first lines that are not in an imperative mood.
-    "S311", # Flake8-bandit - Standard pseudo-random generators are not suitable for security/cryptographic purposes
+    # Non-formatter related ignores
     # Formatter conflicts - these rules conflict with ruff format
-    "COM812", # Trailing comma missing (conflicts with formatter)
-    "COM819", # Prohibited trailing comma (conflicts with formatter)
-    "ISC002", # Multi-line implicit string concatenation (can conflict with formatter)
-    "Q000",   # Bad quotes inline string (conflicts with formatter)
-    "Q001",   # Bad quotes multiline string (conflicts with formatter)
-    "Q002",   # Bad quotes docstring (conflicts with formatter)
-    "Q003",   # Avoidable escaped quote (conflicts with formatter)
+    "E111", # indentation-with-invalid-multiple (conflicts with formatter)
+    "E114", # indentation-with-invalid-multiple-comment (conflicts with formatter)
+    "E117", # over-indented (conflicts with formatter)
+    "E501", # line too long (formatter makes best effort but may exceed)
+    "D206", # docstring-tab-indentation (conflicts with formatter)
+    "D300", # triple-single-quotes (conflicts with formatter quote style)
+    "W191", # tab-indentation (conflicts with formatter)
+    # Note: COM812, COM819, ISC002, Q000-Q003 removed from select to avoid conflicts
 ]
 fixable = ["ALL"]
 unfixable = []
 
 [lint.per-file-ignores]
-"tests/*.py" = ["S101"]      # Use of `assert` detected
-"src/__init__.py" = ["D104"]
+"tests/*.py" = ["S101"]     # Use of `assert` detected
+"**/__init__.py" = ["D104"]
