@@ -30,14 +30,14 @@ repos:
 
   # Ruff Python linter and formatter
   - repo: https://github.com/charliermarsh/ruff-pre-commit
-    rev: "v0.14.2"
+    rev: "v0.14.3"
     hooks:
+      - id: ruff-format
+        description: "Ruff Python formatter"
+        types_or: [python, pyi, jupyter]
       - id: ruff
         description: "Ruff Python linter"
         args: ["--fix", "--config=./ruff.toml"]
-        types_or: [python, pyi, jupyter]
-      - id: ruff-format
-        description: "Ruff Python formatter"
         types_or: [python, pyi, jupyter]
 
   # Spelling checker
@@ -59,9 +59,17 @@ repos:
         args: [--config-file=./mypy.ini, --install-types, --non-interactive]
         additional_dependencies: ["types-PyYAML"]
 
+  # Find unused code in Python projects.
+  - repo: https://github.com/jendrikseipp/vulture
+    rev: v2.14
+    hooks:
+      - id: vulture
+        description: "Find unused code"
+        args: [--min-confidence=80, src/]
+
   # Scan your uv.lock file for dependencies with known vulnerabilities.
   - repo: https://github.com/owenlamont/uv-secure
-    rev: 0.14.1
+    rev: 0.14.4
     hooks:
       - id: uv-secure
         description: "Scan uv.lock for dependencies with known vulnerabilities"
