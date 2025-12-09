@@ -40,7 +40,13 @@ repos:
         args: ["--fix", "--config=./ruff.toml"]
         types_or: [python, pyi, jupyter]
 
-  # Spelling checker
+  # Spelling checker Opt 1
+  - repo: https://github.com/crate-ci/typos
+    rev: v1.40.0
+    hooks:
+      - id: typos
+
+  # Spelling checker Opt 2
   - repo: https://github.com/codespell-project/codespell
     rev: v2.4.1
     hooks:
