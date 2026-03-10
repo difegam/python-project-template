@@ -113,3 +113,15 @@ repos:
         description: "Shell script linter"
         args: ["--severity=warning"]
         types_or: [shell, sh]
+
+  # Semgrep - Security scanning
+  - repo: https://github.com/semgrep/pre-commit
+    rev: v1.154.0
+    hooks:
+    - id: semgrep
+      args:
+        - --config
+        - https://semgrep.dev/p/r2c-ci
+        - --error
+        - --skip-unknown-extensions
+      types: [python]
