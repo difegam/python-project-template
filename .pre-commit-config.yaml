@@ -1,108 +1,101 @@
+minimum_pre_commit_version: "3.2.0"
+
 default_language_version:
   python: python3.12
-exclude: ^(docs|\.venv|\.vscode)/
+
+default_install_hook_types: [pre-commit, pre-push]
+
+exclude: ^(\.venv|\.vscode|build|dist)/
 
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: "v6.0.0"
     hooks:
       - id: trailing-whitespace
-      - id: mixed-line-ending
-      - id: check-added-large-files
-        args: ["--maxkb=1000"]
+        name: trim trailing whitespace
+        args: [--markdown-linebreak-ext=md]
       - id: end-of-file-fixer
+        name: ensure files end with a single newline
+      - id: mixed-line-ending
+        name: normalize line endings
+      - id: check-added-large-files
+        name: block oversized added files
+        args: [--maxkb=1000]
+        exclude: ^uv\.lock$
       - id: check-yaml
+        name: validate YAML syntax
       - id: check-json
+        name: validate JSON syntax
       - id: check-toml
+        name: validate TOML syntax
       - id: check-merge-conflict
+        name: check for merge conflicts
       - id: check-case-conflict
+        name: detect case-insensitive path conflicts
       - id: check-docstring-first
+        name: ensure docstrings are first
       - id: check-executables-have-shebangs
+        name: ensure executables have shebangs
       - id: check-shebang-scripts-are-executable
+        name: ensure shebang scripts are executable
+      - id: check-ast
+        name: check Python syntax and parseability
 
   # Upgrade syntax to newer versions of Python
   - repo: https://github.com/asottile/pyupgrade
-    rev: v3.21.0
+    rev: v3.21.2
     hooks:
       - id: pyupgrade
+        name: modernize Python syntax
         description: "Upgrade syntax to newer versions"
-        args: [--py310-plus, --keep-runtime-typing]
+        args: [--py311-plus, --keep-runtime-typing]
+        types_or: [python, pyi]
 
   # Ruff Python linter and formatter
   - repo: https://github.com/charliermarsh/ruff-pre-commit
-    rev: "v0.14.3"
+    rev: "v0.15.10"
     hooks:
-      - id: ruff-format
-        description: "Ruff Python formatter"
-        types_or: [python, pyi, jupyter]
-      - id: ruff
-        description: "Ruff Python linter"
-        args: ["--fix", "--config=./ruff.toml"]
+      - id: ruff-check
+        name: lint Python and apply safe fixes
+        args: [--fix, --force-exclude, --config=./ruff.toml]
         types_or: [python, pyi, jupyter]
 
+      - id: ruff-format
+        name: format Python
+        args: [--config=./ruff.toml]
+        types_or: [python, pyi, jupyter]
+
+  - repo: https://github.com/hukkin/mdformat
+    rev: 1.0.0
+    hooks:
+      - id: mdformat
+        name: format Markdown
+        types: [markdown]
+        additional_dependencies:
+          - mdformat-gfm
+          - mdformat-mkdocs[recommended]==5.1.4
+          # Optional: format fenced shell code blocks inside Markdown.
+          # - mdformat-shfmt
+
+  # Pick ONE spell checker by default. Keeping both enabled usually creates noise.
   # Spelling checker Opt 1
   - repo: https://github.com/crate-ci/typos
-    rev: v1.40.0
+    rev: v1.45.1
     hooks:
       - id: typos
+        name: detect common misspellings
+        description: "Check for common misspellings"
+        # The default hook writes fixes. Use args: [] for report-only mode.
 
   # Spelling checker Opt 2
   - repo: https://github.com/codespell-project/codespell
-    rev: v2.4.1
+    rev: v2.4.2
     hooks:
       - id: codespell
+        name: detect common misspellings
         description: "Check for common misspellings"
-        files: ^.*\.(py|c|h|md|rst|ya?ml)$
-        additional_dependencies:
-          - tomli
-
-  # Python static type checker
-  - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.18.2
-    hooks:
-      - id: mypy
-        description: "mypy static type checker"
-        args: [--config-file=./mypy.ini, --install-types, --non-interactive]
-        additional_dependencies: ["types-PyYAML"]
-
-  # Find unused code in Python projects.
-  - repo: https://github.com/jendrikseipp/vulture
-    rev: v2.14
-    hooks:
-      - id: vulture
-        description: "Find unused code"
-        args: [--min-confidence=80, src/]
-
-  # Scan your uv.lock file for dependencies with known vulnerabilities.
-  - repo: https://github.com/owenlamont/uv-secure
-    rev: 0.14.4
-    hooks:
-      - id: uv-secure
-        description: "Scan uv.lock for dependencies with known vulnerabilities"
-
-  # Detect secrets in your codebase
-  - repo: https://github.com/Yelp/detect-secrets
-    rev: v1.5.0
-    hooks:
-      - id: detect-secrets
-        description: "Prevent secrets from being committed"
-        args:
-          [
-            "--baseline",
-            ".secrets.baseline",
-            "--exclude-lines",
-            "(.*)# scan:ignore",
-          ]
-        exclude: package.lock.json
-
-  # Detect common security issues in Python code.
-  - repo: https://github.com/pycqa/bandit
-    rev: 1.8.6
-    hooks:
-      - id: bandit
-        description: "Detect common security issues"
-        exclude: ^tests/
-        args: [-r, src]
+        files: ^.*\.(py|c|h|md|rst|ya?ml|toml)$
+        additional_dependencies: [tomli]
 
   # Static analysis tool for shell scripts.
   - repo: https://github.com/koalaman/shellcheck-precommit
@@ -114,14 +107,88 @@ repos:
         args: ["--severity=warning"]
         types_or: [shell, sh]
 
+  # Python static type checker
+  - repo: local
+    hooks:
+      - id: mypy
+        name: type-check Python
+        entry: uv run mypy
+        language: system
+        pass_filenames: false
+        stages: [pre-push, manual]
+        types: [python]
+        args:
+          - --config-file=./mypy.ini
+          - --install-types
+          - --non-interactive
+          - src/
+
+  # Find unused code in Python projects.
+  - repo: https://github.com/jendrikseipp/vulture
+    rev: v2.16
+    hooks:
+      - id: vulture
+        name: detect unused Python code
+        pass_filenames: false
+        stages: [pre-push, manual]
+        args: [--min-confidence=80, --ignore-names=cls, "src/"]
+        # Replace 'src' if your project does not use a src layout.
+
+  # Detect common security issues in Python code.
+  - repo: https://github.com/pycqa/bandit
+    rev: 1.9.4
+    hooks:
+      - id: bandit
+        name: scan Python for common security issues
+        pass_filenames: false
+        stages: [pre-push, manual]
+        args: [-c, pyproject.toml, -r, src]
+        # Replace 'src' if your project does not use a src layout.
+
+  # Scan your uv.lock file for dependencies with known vulnerabilities.
+  - repo: https://github.com/owenlamont/uv-secure
+    rev: 0.17.1
+    hooks:
+      - id: uv-secure
+        name: scan locked dependencies for known vulnerabilities
+        pass_filenames: false
+        stages: [pre-push, manual]
+
+  # Detect secrets in your codebase
+  - repo: https://github.com/Yelp/detect-secrets
+    rev: v1.5.0
+    hooks:
+      - id: detect-secrets
+        name: prevent committing secrets
+        args:
+          - --baseline
+          - .secrets.baseline
+          - --exclude-lines
+          - (.*)# scan:ignore
+        exclude: package.lock.json
+
   # Semgrep - Security scanning
   - repo: https://github.com/semgrep/pre-commit
-    rev: v1.154.0
+    rev: v1.153.0
     hooks:
-    - id: semgrep
-      args:
-        - --config
-        - https://semgrep.dev/p/r2c-ci
-        - --error
-        - --skip-unknown-extensions
-      types: [python]
+      - id: semgrep
+        name: run Semgrep rules
+        pass_filenames: false
+        stages: [pre-push, manual]
+        args:
+          - --config
+          - auto
+          - --error
+          - --skip-unknown-extensions
+
+  # Run your test suite before pushing code.
+  - repo: local
+    hooks:
+      - id: pytest
+        name: run test suite
+        entry: uv run pytest
+        language: system
+        pass_filenames: false
+        stages: [pre-push, manual]
+        args: [tests]
+        # Adjust or remove if your project uses a different test layout.
