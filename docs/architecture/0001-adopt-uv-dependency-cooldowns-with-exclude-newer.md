@@ -87,7 +87,7 @@ newly published malicious releases before the ecosystem has had time to react.
 - Known-vulnerability tooling cannot reliably detect zero-day malicious uploads
   in time.
 
-### Option 4: Use a seven-day cooldown with `exclude-newer = "P7D"`
+### Option 4: Use a seven-day cooldown with [`exclude-newer = "P7D"`](https://docs.astral.sh/uv/reference/settings/#exclude-newer)
 
 **Pros:**
 
