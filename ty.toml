@@ -1,0 +1,84 @@
+# ty Configuration
+# Documentation: https://docs.astral.sh/ty/configuration/
+
+[environment]
+# Python version for source code analysis
+python-version = "3.12"
+
+# Path to Python environment for resolving imports (site-packages)
+python = ".venv"
+
+# First-party module search paths (for nonstandard layouts)
+root = ["./src"]
+
+[rules]
+# Unresolved references and imports
+unresolved-reference = "error"
+unresolved-import = "error"
+unresolved-attribute = "error"
+
+# Type assignment and declarations
+invalid-assignment = "error"
+invalid-declaration = "error"
+invalid-argument-type = "error"
+invalid-return-type = "error"
+
+# Function and parameter type checking
+invalid-parameter-default = "error"
+missing-argument = "error"
+unknown-argument = "error"
+too-many-positional-arguments = "error"
+
+# Warning-level rules for code quality
+unused-ignore-comment = "warn"
+redundant-cast = "warn"
+
+# Ignore rules that may be too strict initially
+possibly-unresolved-reference = "ignore"
+
+# Runtime error detection
+division-by-zero = "error"
+index-out-of-bounds = "error"
+
+[src]
+# What to type-check
+include = ["src", "tests"]
+
+# Common exclusions
+exclude = [
+    "**/.git/",
+    "**/.venv/",
+    "**/__pycache__/",
+    "**/.ruff_cache/",
+    "**/.mypy_cache/",
+    "**/dist/",
+    "**/build/",
+    "**/migrations/**",
+    "**/*.pyc",
+    "**/*.pyo",
+]
+
+# Respect .gitignore and other ignore files
+respect-ignore-files = true
+
+[terminal]
+# Output configuration
+output-format = "full"
+error-on-warning = false
+
+# Override configurations for specific directories
+
+# More relaxed rules for tests
+[[overrides]]
+include = ["tests/**", "**/test_*.py"]
+
+[overrides.rules]
+possibly-unresolved-reference = "warn"
+unresolved-attribute = "warn"
+
+# More flexibility in __init__.py files
+[[overrides]]
+include = ["**/__init__.py"]
+
+[overrides.rules]
+unresolved-import = "warn"
