@@ -2,13 +2,20 @@
 #
 # Build the Docker image for the application.
 #
-# The `docker build` command uses the following options:
+# Builds the Docker image defined in Docker/Dockerfile using the project root
+# as the build context. Produces a locally tagged image ready for use or
+# pushing to a registry.
 #
-#   --no-cache          Build images without using cache. Use cache by default.
-#   -q                  Suppress the build output and print image ID
-#   -t                  Name and optionally a tag in the 'name:tag' format
-#   -f                  Name of the Dockerfile
-#   .                   Build context (current directory)
+# Requirements:
+#   - docker installed and available on PATH
+#
+# Defaults:
+#   --name  python-app
+#   --tag   latest
+#
+# Usage: build.sh [--name NAME] [--tag TAG] [--no-cache] [-q] [-h]
+
+set -euo pipefail
 
 # Script directory
 SCRIPT_DIR="$(
@@ -16,7 +23,7 @@ SCRIPT_DIR="$(
     pwd -P
 )"
 
-PROJECT_DIR=$(realpath "${SCRIPT_DIR}/../../")
+PROJECT_DIR="$(cd "${SCRIPT_DIR}/../../" && pwd -P)"
 
 # DOCKER FILE
 APP_DOCKER_FILE="${PROJECT_DIR}/Docker/Dockerfile"
@@ -41,13 +48,22 @@ build_image() {
     local quiet=$5
 
     if [ -f "$docker_file" ]; then
+        local -a build_args=()
+        [[ -n "$no_cache" ]] && build_args+=("--no-cache")
+        [[ -n "$quiet" ]] && build_args+=("-q")
         echo -e "🐳 Building Docker image ${name}:${tag}..."
-        docker build $no_cache $quiet -t "${name}:${tag}" -f "$docker_file" "$PROJECT_DIR" >/dev/null
+        docker build "${build_args[@]}" -t "${name}:${tag}" -f "$docker_file" "$PROJECT_DIR"
         return 0
     fi
     echo "Error: Dockerfile $docker_file not found."
     exit 1
 }
+
+# Check for docker
+if ! command -v docker &>/dev/null; then
+    echo "Error: docker is not installed or not in PATH."
+    exit 1
+fi
 
 # Default values
 app_name="python-app"
@@ -61,10 +77,12 @@ no_output=""
 while [[ $# -gt 0 ]]; do
     case $1 in
     --name)
+        [[ -z "${2:-}" ]] && { echo "Error: --name requires a value."; exit 1; }
         app_name="$2"
         shift 2
         ;;
     --tag)
+        [[ -z "${2:-}" ]] && { echo "Error: --tag requires a value."; exit 1; }
         app_tag="$2"
         shift 2
         ;;
@@ -93,6 +111,6 @@ build_image "$APP_DOCKER_FILE" "$app_name" "$app_tag" "$no_cache" "$no_output"
 
 # Display the list of images
 echo -e "\nList of Docker images:"
-docker images | grep -E "REPOSITORY|${app_name}"
+docker images | grep -E "^REPOSITORY|^${app_name}\s"
 
 echo -e "\nBuild process completed."
