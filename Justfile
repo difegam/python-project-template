@@ -38,7 +38,7 @@ check:
 [group("code-quality")]
 test:
     echo "🧪 Testing app...! "
-    @uv run pytest -vv --tb=short -s tests/
+    @uv run pytest --tb=short -s tests/
 
 [doc("Update project dependencies")]
 [group("development")]
@@ -52,7 +52,7 @@ clean:
     rm -rf .venv .pytest_cache .mypy_cache .ruff_cache .coverage htmlcov
     find . -type d -name "__pycache__" -exec rm -r {} +
 
-# Recreate project virtualenv from nothing
+[doc("Recreate the virtual environment from scratch")]
 [group("development")]
 fresh: clean init
     uv run pre-commit clean

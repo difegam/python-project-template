@@ -27,13 +27,13 @@ just docker build
 Run the image with default arguments (`--limit 10`):
 
 ```bash
-docker run --rm python-app
+docker run --rm python-app:latest
 ```
 
 Override the default arguments:
 
 ```bash
-docker run --rm python-app --limit 5
+docker run --rm python-app:latest --limit 5
 ```
 
 The `--rm` flag removes the container after it stops running. The `--limit` argument controls how many items to fetch from the API. See [ENTRYPOINT vs CMD][entrypoint-vs-cmd] for more information.

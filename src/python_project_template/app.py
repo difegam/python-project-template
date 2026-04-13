@@ -4,9 +4,7 @@ import requests
 
 
 def main(limit: int) -> None:
-    """
-
-    Docstring for main.
+    """Docstring for main.
 
     :param limit: Description
 
@@ -28,7 +26,7 @@ def cli() -> None:
         "--limit",
         type=int,
         help="The number of items to fetch from the API",
-        required=True,
+        default=10,
     )
     args = parser.parse_args()
     main(args.limit)

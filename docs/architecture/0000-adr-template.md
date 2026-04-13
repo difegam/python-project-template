@@ -22,7 +22,31 @@
 > _What issue is driving this decision or change? Describe the current situation and the reasons behind your decision._
 
 ## Options Considered
+
 > _Options considered, including pros and cons of each._
+
+### Option 1: _Title_
+
+**Pros:**
+
+- …
+
+**Cons:**
+
+- …
+
+### Option 2: _Title_
+
+**Pros:**
+
+- …
+
+**Cons:**
+
+- …
+
+> _Add or remove option blocks as needed. State the chosen option and the
+> reason at the end of the section or inline as part of the final option._
 
 
 ## Consequences
