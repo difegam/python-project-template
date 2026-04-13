@@ -1,4 +1,4 @@
-# Git
+# Version control
 .git
 .gitignore
 
@@ -7,32 +7,24 @@ __pycache__
 *.pyc
 *.pyo
 *.pyd
+*.egg-info
 .Python
-env/
-venv/
-pip-log.txt
-pip-delete-this-directory.txt
+.venv
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+.hypothesis/
 .tox/
 .coverage
 .coverage.*
-.cache
-nosetests.xml
-coverage.xml
-*.cover
-*.log
-.mypy_cache/
-.pytest_cache/
-.hypothesis/
+htmlcov/
 
-# Poetry
-poetry.lock
+# Testing
+tests/
 
 # Environments
 .env
-.venv
-env/
-venv/
-ENV/
+.env.*
 
 # IDEs and editors
 .idea/
@@ -43,29 +35,29 @@ ENV/
 
 # OS generated
 .DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
 Thumbs.db
 
-# Project specific
+# Docker
+Docker/
+docker-compose.yml
+
+# Documentation
+docs/
+*.md
+!README.md
+
+# Build artifacts
+dist/
+build/
+
+# GitHub
+.github/
+
+# Other
 data/
 logs/
 *.db
 *.sqlite3
-
-# Docker
-Dockerfile
-docker-compose.yml
-
-# Documentation
-README.md
-CHANGELOG.md
-docs/
-
-# Other
 *.bak
 *.tmp
 *.temp

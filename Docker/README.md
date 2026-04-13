@@ -1,50 +1,54 @@
 # Python Docker Image
 
+Multi-stage Dockerfile using `python:3.12-slim` with [uv](https://docs.astral.sh/uv/) for dependency management and a non-root runtime user.
 
 ## Build
 
-### Python Base Image
-first build the base image for python
-```bash
-docker build -t python-base:latest -f ./Docker/pythonbase/Dockerfile .
-```
-
-### Application Image
-From the root directory, build the application image running the following command:
+From the project root directory, build the application image:
 
 ```bash
-docker build -t {{APP_IMAGE}}:{{tag}} -f Docker/app/Dockerfile .
+docker build -t python-app:latest -f Docker/Dockerfile .
 ```
-The `{{APP_IMAGE}}` is the name of the image and `{{tag}}` is the version of the image.
 
-Command explanation:
-- `-t` is the tag of the image
-- `-f` is the path to the Dockerfile
-- `.` is the context of the build (root directory)
-
-It is important the command from the root directory because the Dockerfile uses the `COPY` command to copy the application files to the image from `src/python_project_template` directory.
-
-### Run the image
-To run the image, use the following command:
+Or using the build script:
 
 ```bash
-docker run --rm python-app -l 10
+Docker/scripts/build.sh
 ```
-The `--rm` flag removes the container after it stops running. The `-l 10` is an argument to the application that prints the first 10 pokemon's from the API. See [entrypoint][entrypoint-vs-cmd] in the Dockerfile for more information.
+
+Or using just:
+
+```bash
+just docker build
+```
+
+## Run
+
+Run the image with default arguments (`--limit 10`):
+
+```bash
+docker run --rm python-app
+```
+
+Override the default arguments:
+
+```bash
+docker run --rm python-app --limit 5
+```
+
+The `--rm` flag removes the container after it stops running. The `--limit` argument controls how many items to fetch from the API. See [ENTRYPOINT vs CMD][entrypoint-vs-cmd] for more information.
 
 [entrypoint-vs-cmd]: https://spacelift.io/blog/docker-entrypoint-vs-cmd
 
-## Build image with Docker Compose
-To build the image using Docker Compose, run the following command:
+## Build and Run with Docker Compose
 
 ```bash
-docker compose -f docker-compose.yml build
+docker compose build
+docker compose up
 ```
-You can test the image by running `docker compose -f docker-compose.yml up`
-
-
 
 ## Reference
+
 - [Using uv in Docker](https://docs.astral.sh/uv/guides/integration/docker/)
 - [Docker images using uv's python](https://mkennedy.codes/posts/python-docker-images-using-uv-s-new-python-features/?featured_on=pythonbytes)
 - [Production-ready Python Docker Containers with uv](https://hynek.me/articles/docker-uv/)

@@ -40,12 +40,6 @@ test:
     echo "🧪 Testing app...! "
     @uv run pytest -vv --tb=short -s tests/
 
-[doc("Create a requirements.txt from pyproject.toml")]
-[group("development")]
-export-requirements:
-    @echo "Exporting requirements"
-    uv pip compile pyproject.toml -o requirements.txt
-
 [doc("Update project dependencies")]
 [group("development")]
 update:

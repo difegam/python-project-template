@@ -2,18 +2,10 @@
 name: app
 
 services:
-  python-base:
-    container_name: python-base
-    image: python-base
-    build:
-      dockerfile: Docker/pythonbase/Dockerfile
-
   python-app:
     container_name: python-app
     image: python-app
     build:
       context: .
-      dockerfile: Docker/app/Dockerfile
-    command: -l 10
-    depends_on:
-      - python-base
+      dockerfile: Docker/Dockerfile
+    command: ["--limit", "10"]

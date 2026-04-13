@@ -6,22 +6,10 @@ set dotenv-load := true
 default:
     just --list
 
-[doc("Build python base image")]
-[group("build")]
-build-base *ARGS:
-    @echo "Building python base image"
-    @scripts/build.sh --base {{ ARGS }}
-
 [doc("Build app image")]
 [group("build")]
-build-app *ARGS:
-    @echo "Building app image"
-    @scripts/build.sh --app {{ ARGS }}
-
-[doc("Build docker images")]
-[group("build")]
 build *ARGS:
-    @echo "Building docker images"
+    @echo "Building app image"
     @scripts/build.sh {{ ARGS }}
 
 [doc("Explore docker image with Dive")]

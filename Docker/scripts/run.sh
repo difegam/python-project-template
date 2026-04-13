@@ -6,31 +6,21 @@ SCRIPT_DIR="$(
     pwd -P
 )"
 
-PROJECT_DIR=$(realpath "${SCRIPT_DIR}/../")
+PROJECT_DIR=$(realpath "${SCRIPT_DIR}/../../")
 
-# DOCKER FILES
-PYTHON_BASE_DOCKER_FILE="${PROJECT_DIR}/Docker/pythonbase/Dockerfile"
-APP_DOCKER_FILE="${PROJECT_DIR}/Docker/app/Dockerfile"
+# DOCKER FILE
+APP_DOCKER_FILE="${PROJECT_DIR}/Docker/Dockerfile"
 
-# Build Docker images for the Python base and app.
-PYTHON_BASE_IMAGE="python-base:latest"
+# Docker image
 PYTHON_APP_IMAGE="python-app:latest"
 
-# Check if the Python base exists and build it if it doesn't.
-if [ -z "$(docker images -q $PYTHON_BASE_IMAGE 2>/dev/null)" ]; then
-    docker build \
-        -quiet \
-        -t python-base:latest \
-        -f "${PYTHON_BASE_DOCKER_FILE}" . >/dev/null
-fi
-
-# Check if the Python app exists and build it if it doesn't.
+# Check if the app image exists and build it if it doesn't.
 if [ -z "$(docker images -q $PYTHON_APP_IMAGE 2>/dev/null)" ]; then
     docker build \
-        -quiet \
-        -t python-app:latest \
-        -f "${APP_DOCKER_FILE}" . >/dev/null
+        -q \
+        -t "$PYTHON_APP_IMAGE" \
+        -f "${APP_DOCKER_FILE}" "$PROJECT_DIR" >/dev/null
 fi
 
-# Run the Python app entrypoint and pass any arguments.
+# Run the app and pass any arguments.
 docker run --rm "$PYTHON_APP_IMAGE" "$@"
