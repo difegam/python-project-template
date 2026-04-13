@@ -1,84 +1,58 @@
+
 set windows-shell := ["powershell.exe", "-NoLogo", "-Command"]
 set dotenv-load := true
 
-# Available recipes
-@_:
-    echo "template\n"
-    just --list
+mod docker "Docker/docker.just"
 
-# Run the application locally
-[group("run")]
+[doc("Available recipes")]
+[private]
+default:
+    @just --list --list-submodules
+
+[doc("Initialize the project")]
+[group("development")]
+init:
+    @echo "Initializing the project..."
+    @uv sync --all-groups
+    @uv run pre-commit install --install-hooks --hook-type pre-commit --hook-type pre-push
+    @echo "Project initialized successfully!"
+
+[doc("Run the application locally")]
+[group("application")]
 run:
     uv run app
 
-# Run linter and formatter
-[group("qa")]
+[doc("Run linter and formatter")]
+[group("code-quality")]
 lint:
-    uv run ruff check --unsafe-fixes
+    uv run ruff check --fix
     uv run ruff format
 
-# Run pre-commit hooks on all files
-[group('qa')]
+[doc("Run pre-commit hooks on all files")]
+[group("code-quality")]
 check:
     @echo "Running pre-commit hooks on all files"
     @uv run pre-commit run --all-files
 
-# Format in all files
-[group('qa')]
-docstring-format *ARGS:
-    @echo "Running docstring formatter"
-    @echo "To fix docstring format, add '--in-place' to the command"
-
-# Run Tests
-[group('qa')]
+[doc("Run tests")]
+[group("code-quality")]
 test:
     echo "🧪 Testing app...! "
     @uv run pytest -vv --tb=short -s tests/
 
-# Create a requirements.txt from pyproject.toml
-[group('development')]
+[doc("Create a requirements.txt from pyproject.toml")]
+[group("development")]
 export-requirements:
     @echo "Exporting requirements"
     uv pip compile pyproject.toml -o requirements.txt
 
-# Build python base image
-[group('docker')]
-build-base *ARGS:
-    @echo "Building python base image"
-    @./Docker/scripts/build.sh --base {{ARGS}}
-
-# Build app image
-[group('docker')]
-build-app *ARGS:
-    @echo "Building app image"
-    @./Docker/scripts/build.sh --app {{ARGS}}
-
-# Build docker images
-[group('docker')]
-build *ARGS:
-    @echo "Building docker images"
-    @./Docker/scripts/build.sh {{ARGS}}
-
-# 🐳 “Dive” is a tool that helps you explore a Docker image, examine its layers, and find ways to reduce its size.
-[group('docker')]
-dive *ARGS:
-    @echo "Exploring docker image"
-    @docker run -ti --rm  -v /var/run/docker.sock:/var/run/docker.sock wagoodman/dive {{ARGS}}
-
-# Ensure project virtualenv is up to date
-[group("development")]
-install:
-    @echo "📦 Installing the application for development"
-    uv sync --all-groups
-    uv run pre-commit install
-    @echo "\n✅ Setup complete, ready to code 🚀"
-
-# Update dependencies
+[doc("Update project dependencies")]
 [group("development")]
 update:
-    uv sync --all-groups
+    uv lock --upgrade && uv sync --all-groups
+    @echo "✅ Dependencies updated successfully 🚀"
 
-# Remove temporary files
+[doc("Remove temporary files")]
 [group("development")]
 clean:
     rm -rf .venv .pytest_cache .mypy_cache .ruff_cache .coverage htmlcov
@@ -86,5 +60,6 @@ clean:
 
 # Recreate project virtualenv from nothing
 [group("development")]
-fresh: clean install
+fresh: clean init
+    uv run pre-commit clean
     @echo "✅ Fresh setup complete, ready to code 🚀"
