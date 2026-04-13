@@ -32,6 +32,8 @@ dev = [
 [tool.uv]
 default-groups = ["dev"]
 exclude-newer = "P7D"    # "7 days" in RFC 3339 format
+# package = true  # https://docs.astral.sh/uv/reference/settings/#package
+
 
 [tool.pytest.ini_options]
 addopts = "-vvv"
