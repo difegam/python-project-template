@@ -14,5 +14,32 @@
   "python.testing.pytestArgs": ["tests"],
   "python.testing.cwd": "${workspaceFolder}/tests",
   "python.testing.pytestPath": "${workspaceFolder}/.venv/bin/pytest",
-  "python.testing.autoTestDiscoverOnSaveEnabled": true
+  "python.testing.autoTestDiscoverOnSaveEnabled": true,
+
+// ─── ty: choose ONE option ────────────────────────────────────────────────
+//
+// OPTION A — ty as full language server (replaces Pylance for hover, completions, go-to-def)
+//   Install extension: https://marketplace.visualstudio.com/items?itemName=astral-sh.ty
+//   Uncomment ALL lines below:
+//
+//   "python.languageServer": "None",
+//   "ty.importStrategy": "fromEnvironment",
+//   "ty.interpreter": ["${workspaceFolder}/.venv/bin/python"],
+//   "ty.diagnosticMode": "workspace",
+//   "ty.completions.autoImport": true,
+//   "ty.inlayHints.variableTypes": true,
+//   "ty.inlayHints.callArgumentNames": true,
+//
+// OPTION B — ty diagnostics only, keep Pylance for completions/hover
+//   Install extension: https://marketplace.visualstudio.com/items?itemName=astral-sh.ty
+//   Uncomment ALL lines below:
+//
+//   "python.languageServer": "Pylance",
+//   "ty.importStrategy": "fromEnvironment",
+//   "ty.interpreter": ["${workspaceFolder}/.venv/bin/python"],
+//   "ty.diagnosticMode": "workspace",
+//   "ty.disableLanguageServices": true,
+//
+// ──────────────────────────────────────────────────────────────────────────
+
 }

@@ -40,6 +40,18 @@ test:
     echo "🧪 Testing app...! "
     @uv run pytest --tb=short -s tests/
 
+# ⚠ Type checker: choose ONE of type-check-ty or type-check-mypy (not both)
+
+[doc("Type-check with ty (choose ty OR mypy, not both) — https://docs.astral.sh/ty/")]
+[group("code-quality")]
+type-check-ty:
+    uv run ty check
+
+[doc("Type-check with mypy (choose mypy OR ty, not both) — https://mypy.readthedocs.io/")]
+[group("code-quality")]
+type-check-mypy:
+    uv run mypy src/python_project_template/
+
 [doc("Update project dependencies")]
 [group("development")]
 update:
@@ -49,7 +61,7 @@ update:
 [doc("Remove temporary files")]
 [group("development")]
 clean:
-    rm -rf .venv .pytest_cache .mypy_cache .ruff_cache .coverage htmlcov
+    rm -rf .venv .pytest_cache .mypy_cache .ty_cache .ruff_cache .coverage htmlcov
     find . -type d -name "__pycache__" -exec rm -r {} +
 
 [doc("Recreate the virtual environment from scratch")]
