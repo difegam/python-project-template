@@ -10,19 +10,19 @@ default:
 [group("build")]
 build-base *ARGS:
     @echo "Building python base image"
-    @./Docker/scripts/build.sh --base {{ ARGS }}
+    @scripts/build.sh --base {{ ARGS }}
 
 [doc("Build app image")]
 [group("build")]
 build-app *ARGS:
     @echo "Building app image"
-    @./Docker/scripts/build.sh --app {{ ARGS }}
+    @scripts/build.sh --app {{ ARGS }}
 
 [doc("Build docker images")]
 [group("build")]
 build *ARGS:
     @echo "Building docker images"
-    @./Docker/scripts/build.sh {{ ARGS }}
+    @scripts/build.sh {{ ARGS }}
 
 [doc("Explore docker image with Dive")]
 [group("operations")]
