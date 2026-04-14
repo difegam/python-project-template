@@ -1,0 +1,58 @@
+# ty Configuration
+# Documentation: https://docs.astral.sh/ty/configuration/
+
+[environment]
+python-version = "3.12"
+python = ".venv"
+root = ["./src"]
+
+[rules]
+unresolved-reference = "error"
+unresolved-import = "error"
+unresolved-attribute = "error"
+invalid-assignment = "error"
+invalid-declaration = "error"
+invalid-argument-type = "error"
+invalid-return-type = "error"
+invalid-parameter-default = "error"
+missing-argument = "error"
+unknown-argument = "error"
+too-many-positional-arguments = "error"
+unused-ignore-comment = "warn"
+redundant-cast = "warn"
+possibly-unresolved-reference = "ignore"
+division-by-zero = "error"
+index-out-of-bounds = "error"
+
+[src]
+include = ["src", "tests"]
+exclude = [
+    "**/.git/",
+    "**/.venv/",
+    "**/__pycache__/",
+    "**/.ruff_cache/",
+    "**/.mypy_cache/",
+    "**/dist/",
+    "**/build/",
+    "**/migrations/**",
+    "**/*.pyc",
+    "**/*.pyo",
+]
+respect-ignore-files = true
+
+[terminal]
+output-format = "full"
+error-on-warning = false
+
+[[overrides]]
+include = ["tests/**", "**/test_*.py"]
+
+[overrides.rules]
+possibly-unresolved-reference = "warn"
+unresolved-attribute = "warn"
+
+[[overrides]]
+include = ["**/__init__.py"]
+
+[overrides.rules]
+unresolved-import = "warn"

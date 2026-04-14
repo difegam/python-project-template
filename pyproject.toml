@@ -1,43 +1,39 @@
-[tool.poetry]
-name = "python_project_template"
+[project]
+name = "python-project-template"
 version = "0.1.0"
 description = "A template python project"
-authors = ["difegam <difegam3@gmail.com>"]
-readme = "README.md"
-packages = [{ include = "python_project_template", from = "src" }]
-
-include = ["CHANGELOG.md", "LICENSE"]
+requires-python = ">=3.12"
 license = "MIT"
+readme = "README.md"
+authors = [{ name = "Diego Gamboa", email = "difegam3@gmail.com" }]
+dependencies = ["requests>=2.32.3"]
 
-keywords = [
-    "Topic :: Internet",
-    "Topic :: Software Development :: Libraries :: Application Frameworks",
-    "Topic :: Software Development :: Libraries :: Python Modules",
-    "Topic :: Software Development :: Libraries",
-    "Topic :: Software Development",
-    "Intended Audience :: Developers",
-    "License :: OSI Approved :: MIT License",
-    "Programming Language :: Python",
-    "Programming Language :: Python :: 3.8",
-    "Programming Language :: Python :: 3.9",
-    "Programming Language :: Python :: 3.10",
-    "Programming Language :: Python :: 3.11",
+[project.urls]
+Repository = "https://github.com/difegam/python-project-template"
+
+[project.scripts]
+app = "python_project_template.app:cli"
+
+[tool.poetry]
+packages = [{ include = "python_project_template", from = "src" }]
+requires-poetry = ">=2.3"
+
+[dependency-groups]
+test = ["pytest>=8.3.5"]
+lint = ["ruff>=0.11.6"]
+typecheck = ["mypy>=1.15.0", "ty>=0.0.29", "types-requests>=2.32.4.20250611"]
+dev = [
+    { include-group = "test" },
+    { include-group = "lint" },
+    { include-group = "typecheck" },
+    "pre-commit>=4.2.0",
 ]
 
-[tool.poetry.dependencies]
-python = "^3.10"
-
-[tool.poetry.group.dev.dependencies]
-pytest = "^8.3.1"
-mypy = "^1.11.0"
-
 [build-system]
-requires = ["poetry-core"]
+requires = ["poetry-core>=2.3"]
 build-backend = "poetry.core.masonry.api"
-
-[tool.poetry.scripts]
-app = "src.python_project_template.__main__:main"
 
 [tool.pytest.ini_options]
 addopts = "-vvv"
 testpaths = "tests"
+pythonpath = "src"

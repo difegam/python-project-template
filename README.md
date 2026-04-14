@@ -1,10 +1,92 @@
 # Python Project Template 🐍
 
-This is a template for a Python project. It includes a basic project structure, a Justfile with some useful commands, and a README.md template.
+A batteries-included starting point for Python 3.12+ projects with a curated
+toolchain: [Poetry](https://python-poetry.org/) for dependency management,
+[ruff](https://docs.astral.sh/ruff/) for linting and formatting,
+[mypy](https://mypy.readthedocs.io/) and [ty](https://docs.astral.sh/ty/) for
+type-checking, [pytest](https://docs.pytest.org/) for testing, and
+[pre-commit](https://pre-commit.com/) for Git hooks, all wired together with
+[just](https://just.systems/) recipes.
 
+## Prerequisites
+
+Install the following tools before cloning:
+
+| Tool                                 | Purpose         | Install                                                                          |
+| ------------------------------------ | --------------- | -------------------------------------------------------------------------------- |
+| Python 3.12+                         | Runtime         | [python.org](https://www.python.org/downloads/)                                  |
+| [Poetry](https://python-poetry.org/) | Package manager | [Poetry docs](https://python-poetry.org/docs/#installation)                      |
+| [just](https://just.systems/)        | Task runner     | `brew install just` / [other options](https://just.systems/man/en/packages.html) |
+
+## Quickstart
+
+```bash
+git clone https://github.com/difegam/python-project-template
+cd python-project-template
+rm -rf .git      # optional: remove git history for a clean slate
+just init        # install deps + pre-commit hooks
+just run         # run the application
+```
+
+## Development
+
+Run `just` (no arguments) to list all available recipes.
+
+| Recipe          | Description                                                           |
+| --------------- | --------------------------------------------------------------------- |
+| `just init`     | Install dependencies and pre-commit hooks                             |
+| `just run`      | Run the application locally                                           |
+| `just test`     | Run the test suite                                                    |
+| `just lint`     | Auto-fix lint issues and format code with ruff                        |
+| `just check`    | Run all pre-commit hooks on every file                                |
+| `just update`   | Upgrade and re-lock all dependencies                                  |
+| `just clean`    | Remove `.venv`, caches, and `__pycache__` directories                 |
+| `just fresh`    | Full clean slate: `clean` + `init` + pre-commit reset                 |
+| `just docker *` | Delegate to Docker recipes (see [Docker/README.md](Docker/README.md)) |
+
+## Testing and Code Quality
+
+```bash
+just test     # pytest
+just lint     # ruff check --fix + ruff format
+just check    # pre-commit run --all-files
+```
+
+Type-checking is provided by both **mypy** (configured in `mypy.ini`) and
+**ty** (configured in `ty.toml`).
+
+## Docker
+
+See [Docker/README.md](Docker/README.md) for full build and run instructions.
+
+```bash
+just docker build                          # build image
+docker run --rm python-app:latest          # run with defaults
+docker run --rm python-app:latest --limit 5
+docker compose up                          # build + run via Compose
+```
+
+## Package Management
+
+This project uses Poetry 2.3+ with modern packaging standards:
+
+- PEP 621 project metadata (`[project]`)
+- PEP 735 dependency groups (`[dependency-groups]`)
+- PEP 639 SPDX license format (`license = "MIT"`)
+
+Common commands:
+
+```bash
+poetry install --all-groups
+poetry add <package>
+poetry add --group dev <package>
+poetry remove <package>
+poetry lock --regenerate
+```
 
 ## Resources
-- https://github.com/asmitul/python-package-template/tree/main
-- https://github.com/alvarobartt/python-package-template
-- https://github.com/Diapolo10/python-poetry-template/tree/main
-- https://github.com/smarlhens/python-boilerplate/tree/main
+
+- [python-package-template by asmitul](https://github.com/asmitul/python-package-template/tree/main)
+- [python-package-template by alvarobartt](https://github.com/alvarobartt/python-package-template)
+- [python-poetry-template by Diapolo10](https://github.com/Diapolo10/python-poetry-template/tree/main)
+- [python-boilerplate by smarlhens](https://github.com/smarlhens/python-boilerplate/tree/main)

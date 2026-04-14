@@ -1,33 +1,68 @@
 set windows-shell := ["powershell.exe", "-NoLogo", "-Command"]
 set dotenv-load := true
 
-PYMODULE := "project_name"
-POETRY_URL := "https://python-poetry.org/docs/#enable-tab-completion-for-bash-fish-or-zsh"
+mod docker "Docker/docker.just"
 
-# Available recipes
-_default:
-    @just --list --unsorted --list-prefix "    > " --justfile {{justfile()}}
+[doc("Available recipes")]
+[private]
+default:
+    @just --list --list-submodules
 
-# Install dependencies
-install:
-    #!/usr/bin/env bash
-    echo "Installing dependencies manager..."
-    # Check if poetry is installed
-    if ! command -v poetry &> /dev/null; then
-        echo "📦 Installing poetry..."
-        # Install poetry
-        curl -sSL https://install.python-poetry.org | python3 -
-        echo "🌐 Opening browser..."
-        python3 -m webbrowser -t {{ POETRY_URL }}
-    else
-        echo "📦 Poetry is already installed."
-    fi
-    # Install dependencies
-    echo "📦 Installing dependencies..."
-    poetry install
-    poetry run pre-commit install
-    poetry run poetry-dynamic-versioning
+[doc("Initialize the project")]
+[group("development")]
+init:
+    @echo "Initializing the project..."
+    @poetry install --all-groups
+    @poetry run pre-commit install --install-hooks --hook-type pre-commit --hook-type pre-push
+    @echo "Project initialized successfully!"
 
-# 🐳 Build docker image
-docker-build:
-    docker build -t pytemplate .
+[doc("Run the application locally")]
+[group("application")]
+run:
+    poetry run app
+
+[doc("Run linter and formatter")]
+[group("code-quality")]
+lint:
+    poetry run ruff check --fix
+    poetry run ruff format
+
+[doc("Run pre-commit hooks on all files")]
+[group("code-quality")]
+check:
+    @echo "Running pre-commit hooks on all files"
+    @poetry run pre-commit run --all-files
+
+[doc("Run tests")]
+[group("code-quality")]
+test:
+    echo "Testing app..."
+    @poetry run pytest --tb=short -s tests/
+
+[doc("Type-check with ty (choose ty OR mypy, not both) - https://docs.astral.sh/ty/")]
+[group("code-quality")]
+type-check-ty:
+    poetry run ty check
+
+[doc("Type-check with mypy (choose mypy OR ty, not both) - https://mypy.readthedocs.io/")]
+[group("code-quality")]
+type-check-mypy:
+    poetry run mypy src/python_project_template/
+
+[doc("Update project dependencies")]
+[group("development")]
+update:
+    poetry lock --regenerate && poetry install --all-groups
+    @echo "Dependencies updated successfully"
+
+[doc("Remove temporary files")]
+[group("development")]
+clean:
+    rm -rf .venv .pytest_cache .mypy_cache .ty_cache .ruff_cache .coverage htmlcov
+    find . -type d -name "__pycache__" -exec rm -r {} +
+
+[doc("Recreate the virtual environment from scratch")]
+[group("development")]
+fresh: clean init
+    poetry run pre-commit clean
+    @echo "Fresh setup complete, ready to code"
