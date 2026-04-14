@@ -2,43 +2,48 @@
 
 ## Project Overview
 
-This is a Python project template supporting two package managers: [uv](https://docs.astral.sh/uv/) and [Poetry](https://python-poetry.org/). The structure is designed for rapid prototyping and clean organization, with a focus on modern Python tooling and developer experience.
+This repository uses `main` as a documentation-first branch. It is not the
+runnable Python template.
+Use [README.md](../README.md) as the canonical source for onboarding, branch
+selection, and setup.
+
+## Branch Model
+
+- `main`: shared documentation and repository guidance
+- `uv`: runnable template using uv-based tooling
+- `poetry`: runnable template using Poetry-based tooling
+
+Choose the branch that matches the package manager you are changing.
 
 ## Architecture & Structure
 
-- **Source code:** `src/python_project_template/`
-- **Tests:** `tests/`
-- **Project configuration:** Managed by either `uv` or `Poetry` (see relevant branch)
-- **Task runner:** Uses [Justfile](https://just.systems/man/en/) for common commands
-- **Pre-commit hooks:** Run with `pre-commit run --all-files` (see VS Code task)
+- **Python version:** 3.12+
+- **Runnable branch source code:** `src/python_project_template/`
+- **Runnable branch tests:** `tests/`
+- **Package entry point:** `src/python_project_template/app.py`
+- **Shared exports:** `src/python_project_template/__init__.py`
+- **Project configuration:** branch-specific
+- **Task runner:** Optional [Justfile](https://just.systems/man/en/) when present
+- **Pre-commit hooks:** Optional; run with `pre-commit run --all-files` when
+  configured
 
-## Key Workflows
+## Agent Workflow
 
-- **Install dependencies:**
-  - For uv: `uv pip install -r requirements.txt` or `uv venv`
-  - For Poetry: `poetry install`
-- **Run pre-commit checks:** Use the VS Code task "Run pre-commit hook" or run manually
-- **Run tests:**
-  - Place tests in `tests/`
-  - Use `pytest` or your preferred test runner
-- **Linting & formatting:**
-  - [Ruff](https://docs.astral.sh/ruff/) is recommended for linting and formatting
-  - Configure Ruff via `pyproject.toml` or `.ruff.toml` if present
-- **Task automation:**
-  - Use `just` for project-specific tasks (see `Justfile`)
+- Start with [README.md](../README.md) for branch selection and setup.
+- Do not treat `main` as the runnable template branch.
+- On `uv`, prefer `just` recipes when a Justfile is present.
+- On `poetry`, use direct commands such as `poetry install`, `pytest`,
+  `ruff check --fix`, `ruff format`, and
+  `mypy src/python_project_template/`.
+- Use `pre-commit run --all-files` only when pre-commit is configured.
 
 ## Conventions & Patterns
 
-- **Branching:**
-  - `uv` branch for uv-based setup
-  - `poetry` branch for Poetry-based setup
-- **Directory layout:**
-  - All source code in `src/python_project_template/`
-  - Tests in `tests/`
-- **.gitignore:**
-  - Generate using [gitignore generator](https://www.toptal.com/developers/gitignore)
-- **Inspired by:**
-  - See README for links to template inspirations
+- **Formatting:** Ruff enforces a 100-character line length.
+- **Style:** Use 4-space indentation and double quotes.
+- **Naming:** Use `snake_case` for modules, functions, and tests; use
+  `PascalCase` for classes.
+- **Imports:** Keep imports absolute from `python_project_template`.
 
 ## Integration Points
 
@@ -49,14 +54,14 @@ This is a Python project template supporting two package managers: [uv](https://
 
 ## Examples
 
-- To run all pre-commit hooks: `pre-commit run --all-files`
-- To install dependencies (uv): `uv pip install -r requirements.txt`
-- To install dependencies (Poetry): `poetry install`
-- To run tests: `pytest tests/`
+- Choose branch first: see [README.md](../README.md)
+- Run all pre-commit hooks (if configured): `pre-commit run --all-files`
+- Run tests on `uv`: `just test`
+- Run tests on `poetry`: `pytest tests/`
 
 ## References
 
-- See `README.md` for more details and resource links
+- See [README.md](../README.md) for onboarding details and resource links
 - Key directories: `src/`, `tests/`, `.github/`
 
 ---
