@@ -6,18 +6,23 @@ This repository is a Python project scaffold with two package manager variants:
 
 ## Template Status
 
-- This root branch is a lightweight scaffold for structure and documentation.
-- Dependency configuration files may live in the package-manager branches.
-- If you want a runnable workflow immediately, start by selecting a package
+- This `main` branch is documentation-first and is not the runnable template.
+- Dependency manifests, lockfiles, and application code live on the
+  package-manager branches.
+- Use `main` for shared documentation updates. Make runnable template changes on
+  the `uv` or `poetry` branch.
+- If you want a working project immediately, start by selecting a package
   manager branch.
 
 ## Prerequisites
 
-- Python 3.11+
+- Python 3.12+
 - Git
 - One package manager:
   - [uv](https://docs.astral.sh/uv/)
   - [Poetry](https://python-poetry.org/)
+
+Both runnable branches currently require Python 3.12 or newer.
 
 ## Choose a Package Manager
 
@@ -26,24 +31,27 @@ Use one of these branch workflows:
 1. uv
 
 ```bash
-git fetch --all
-git switch uv
+git fetch origin
+git switch --track origin/uv
 ```
 
 1. Poetry
 
 ```bash
-git fetch --all
-git switch poetry
+git fetch origin
+git switch --track origin/poetry
 ```
 
-After switching, follow the setup instructions on that branch.
+After switching, follow the setup instructions on that branch to install
+dependencies, hooks, and local tooling.
 
 ## Project Structure
 
-- **Source code:** `src/python_project_template/`
-- **Tests:** `tests/`
-- **Configuration:** Branch-specific (`uv` or `poetry`)
+- **Main branch:** shared onboarding and repository documentation
+- **Runnable branches:** `uv` and `poetry`
+- **Source code on runnable branches:** `src/python_project_template/`
+- **Tests on runnable branches:** `tests/`
+- **Configuration:** branch-specific (`uv` or `poetry`)
 - **Optional task runner:** [Justfile](https://just.systems/man/en/) when present
 - **Optional pre-commit hooks:** `pre-commit run --all-files` when configured
 
