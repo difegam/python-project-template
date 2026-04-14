@@ -72,16 +72,10 @@ priority = 20
 [[repos]]
 repo = "https://github.com/pre-commit/pre-commit-hooks"
 rev = "v6.0.0"
-
-[[repos.hooks]]
-id = "check-docstring-first"
-name = "ensure docstrings are first"
-priority = 20
-
-[[repos.hooks]]
-id = "check-ast"
-name = "check Python syntax and parseability"
-priority = 20
+hooks = [
+    { id = "check-docstring-first", name = "ensure docstrings are first", priority = 20 },
+    { id = "check-ast", name = "check Python syntax and parseability", priority = 20 },
+]
 
 [[repos]]
 repo = "https://github.com/asottile/pyupgrade"
