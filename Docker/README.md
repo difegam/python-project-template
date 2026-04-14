@@ -38,8 +38,6 @@ docker run --rm python-app:latest --limit 5
 
 The `--rm` flag removes the container after it stops running. The `--limit` argument controls how many items to fetch from the API. See [ENTRYPOINT vs CMD][entrypoint-vs-cmd] for more information.
 
-[entrypoint-vs-cmd]: https://spacelift.io/blog/docker-entrypoint-vs-cmd
-
 ## Build and Run with Docker Compose
 
 ```bash
@@ -52,3 +50,5 @@ docker compose up
 - [Using uv in Docker](https://docs.astral.sh/uv/guides/integration/docker/)
 - [Docker images using uv's python](https://mkennedy.codes/posts/python-docker-images-using-uv-s-new-python-features/?featured_on=pythonbytes)
 - [Production-ready Python Docker Containers with uv](https://hynek.me/articles/docker-uv/)
+
+[entrypoint-vs-cmd]: https://spacelift.io/blog/docker-entrypoint-vs-cmd

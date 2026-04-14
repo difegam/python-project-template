@@ -14,7 +14,7 @@ default:
 init:
     @echo "Initializing the project..."
     @uv sync --all-groups
-    @uv run pre-commit install --install-hooks --hook-type pre-commit --hook-type pre-push
+    @uv run prek install --prepare-hooks --hook-type pre-commit --hook-type pre-push
     @echo "Project initialized successfully!"
 
 [doc("Run the application locally")]
@@ -28,11 +28,16 @@ lint:
     uv run ruff check --fix
     uv run ruff format
 
-[doc("Run pre-commit hooks on all files")]
+[doc("Run prek hooks on all files")]
 [group("code-quality")]
 check:
-    @echo "Running pre-commit hooks on all files"
-    @uv run pre-commit run --all-files
+    @echo "Running prek hooks on all files"
+    @uv run prek run --all-files
+
+[doc("Update prek hook revisions with a 7-day cooldown")]
+[group("development")]
+hooks-update:
+    uv run prek auto-update --cooldown-days 7
 
 [doc("Run tests")]
 [group("code-quality")]
@@ -67,5 +72,5 @@ clean:
 [doc("Recreate the virtual environment from scratch")]
 [group("development")]
 fresh: clean init
-    uv run pre-commit clean
+    uv run prek cache clean
     @echo "✅ Fresh setup complete, ready to code 🚀"

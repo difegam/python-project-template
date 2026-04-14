@@ -40,9 +40,9 @@ The template already uses multiple dependency safety controls:
 
 - `uv.lock` for reproducible application environments.
 - `uv-secure` in pre-commit to scan locked dependencies for known
-  vulnerabilities.
+    vulnerabilities.
 - `exclude-newer = "P7D"` in `pyproject.toml` to avoid consuming very recent
-  uploads by default.
+    uploads by default.
 
 Those controls solve different problems. Lockfiles improve reproducibility,
 scanners identify known issues, and a dependency cooldown reduces exposure to
@@ -85,7 +85,7 @@ newly published malicious releases before the ecosystem has had time to react.
 
 - Does not protect the initial install or update event from a malicious release.
 - Known-vulnerability tooling cannot reliably detect zero-day malicious uploads
-  in time.
+    in time.
 
 ### Option 4: Use a seven-day cooldown with [`exclude-newer = "P7D"`](https://docs.astral.sh/uv/reference/settings/#exclude-newer)
 
@@ -109,17 +109,17 @@ override for teams with different risk tolerance.
 **Positive:**
 
 - Reduces the chance that template users install a malicious release during the
-  first hours or days after publication.
+    first hours or days after publication.
 - Makes supply-chain risk reduction part of the default developer workflow.
 - Complements `uv.lock` and `uv-secure` rather than replacing them.
 - Encourages intentional dependency updates instead of automatically drinking
-  from the latest-release firehose.
+    from the latest-release firehose.
 
 **Negative:**
 
 - Developers may not receive the newest package release immediately.
 - Urgent dependency updates may require an explicit cooldown bypass.
 - Teams using this template need to understand why dependency resolution may
-  skip very recent releases.
+    skip very recent releases.
 - This control is not sufficient on its own and must still be paired with
-  vulnerability management and normal dependency review.
+    vulnerability management and normal dependency review.

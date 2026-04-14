@@ -1,0 +1,265 @@
+minimum_prek_version = "0.3.8"
+default_install_hook_types = ["pre-commit", "pre-push"]
+exclude = "^(\\.venv|\\.vscode|build|dist)/"
+default_language_version.python = "3.12"
+
+[[repos]]
+repo = "builtin"
+
+[[repos.hooks]]
+id = "mixed-line-ending"
+name = "normalize line endings"
+priority = 0
+
+[[repos.hooks]]
+id = "trailing-whitespace"
+name = "trim trailing whitespace"
+args = ["--markdown-linebreak-ext=md"]
+priority = 1
+
+[[repos.hooks]]
+id = "end-of-file-fixer"
+name = "ensure files end with a single newline"
+priority = 2
+
+[[repos.hooks]]
+id = "check-added-large-files"
+name = "block oversized added files"
+args = ["--maxkb=1000"]
+exclude = "^uv\\.lock$"
+priority = 20
+
+[[repos.hooks]]
+id = "check-yaml"
+name = "validate YAML syntax"
+priority = 20
+
+[[repos.hooks]]
+id = "check-json"
+name = "validate JSON syntax"
+priority = 20
+
+[[repos.hooks]]
+id = "check-toml"
+name = "validate TOML syntax"
+priority = 20
+
+[[repos.hooks]]
+id = "check-merge-conflict"
+name = "check for merge conflicts"
+priority = 20
+
+[[repos.hooks]]
+id = "check-case-conflict"
+name = "detect case-insensitive path conflicts"
+priority = 20
+
+[[repos.hooks]]
+id = "check-executables-have-shebangs"
+name = "ensure executables have shebangs"
+priority = 20
+
+[[repos.hooks]]
+id = "check-shebang-scripts-are-executable"
+name = "ensure shebang scripts are executable"
+priority = 20
+
+[[repos.hooks]]
+id = "detect-private-key"
+name = "detect committed private keys"
+priority = 20
+
+[[repos]]
+repo = "https://github.com/pre-commit/pre-commit-hooks"
+rev = "v6.0.0"
+
+[[repos.hooks]]
+id = "check-docstring-first"
+name = "ensure docstrings are first"
+priority = 20
+
+[[repos.hooks]]
+id = "check-ast"
+name = "check Python syntax and parseability"
+priority = 20
+
+[[repos]]
+repo = "https://github.com/asottile/pyupgrade"
+rev = "v3.21.2"
+
+[[repos.hooks]]
+id = "pyupgrade"
+name = "modernize Python syntax"
+description = "Upgrade syntax to newer versions"
+args = ["--py311-plus", "--keep-runtime-typing"]
+types_or = ["python", "pyi"]
+priority = 3
+
+[[repos]]
+repo = "https://github.com/astral-sh/ruff-pre-commit"
+rev = "v0.15.10"
+
+[[repos.hooks]]
+id = "ruff-check"
+name = "lint Python and apply safe fixes"
+args = ["--fix", "--config=./ruff.toml"]
+types_or = ["python", "pyi", "jupyter"]
+priority = 4
+
+[[repos.hooks]]
+id = "ruff-format"
+name = "format Python"
+args = ["--config=./ruff.toml"]
+types_or = ["python", "pyi", "jupyter"]
+priority = 5
+
+[[repos]]
+repo = "https://github.com/hukkin/mdformat"
+rev = "1.0.0"
+
+[[repos.hooks]]
+id = "mdformat"
+name = "format Markdown"
+types = ["markdown"]
+exclude = "^\\.github/"
+additional_dependencies = [
+    "mdformat-gfm",
+    "mdformat-mkdocs[recommended]==5.1.4",
+]
+priority = 6
+
+[[repos]]
+repo = "https://github.com/crate-ci/typos"
+rev = "v1.45.1"
+
+[[repos.hooks]]
+id = "typos"
+name = "detect common misspellings"
+description = "Check for common misspellings"
+args = []
+priority = 7
+
+[[repos]]
+repo = "https://github.com/codespell-project/codespell"
+rev = "v2.4.2"
+
+[[repos.hooks]]
+id = "codespell"
+name = "detect common misspellings"
+description = "Check for common misspellings"
+files = "^.*\\.(py|c|h|md|rst|ya?ml|toml)$"
+additional_dependencies = ["tomli"]
+priority = 20
+
+[[repos]]
+repo = "https://github.com/koalaman/shellcheck-precommit"
+rev = "v0.11.0"
+
+[[repos.hooks]]
+id = "shellcheck"
+name = "check shell scripts"
+description = "Shell script linter"
+args = ["--severity=warning"]
+types_or = ["shell", "sh"]
+priority = 20
+
+[[repos]]
+repo = "local"
+
+[[repos.hooks]]
+id = "mypy"
+name = "type-check Python"
+entry = "uv run mypy"
+language = "system"
+pass_filenames = false
+always_run = true
+stages = ["pre-push", "manual"]
+types = ["python"]
+args = [
+    "--config-file=./mypy.ini",
+    "--install-types",
+    "--non-interactive",
+    "src/",
+]
+priority = 30
+
+[[repos]]
+repo = "https://github.com/jendrikseipp/vulture"
+rev = "v2.16"
+
+[[repos.hooks]]
+id = "vulture"
+name = "detect unused Python code"
+pass_filenames = false
+always_run = true
+stages = ["pre-push", "manual"]
+args = ["--min-confidence=80", "--ignore-names=cls", "src/"]
+priority = 30
+
+[[repos]]
+repo = "https://github.com/pycqa/bandit"
+rev = "1.9.4"
+
+[[repos.hooks]]
+id = "bandit"
+name = "scan Python for common security issues"
+pass_filenames = false
+always_run = true
+stages = ["pre-push", "manual"]
+args = ["-c", "pyproject.toml", "-r", "src"]
+priority = 30
+
+[[repos]]
+repo = "https://github.com/owenlamont/uv-secure"
+rev = "0.17.1"
+
+[[repos.hooks]]
+id = "uv-secure"
+name = "scan locked dependencies for known vulnerabilities"
+pass_filenames = false
+always_run = true
+stages = ["pre-push", "manual"]
+priority = 30
+
+[[repos]]
+repo = "https://github.com/Yelp/detect-secrets"
+rev = "v1.5.0"
+
+[[repos.hooks]]
+id = "detect-secrets"
+name = "prevent committing secrets"
+args = [
+    "--baseline",
+    ".secrets.baseline",
+    "--exclude-lines",
+    "(.*)# scan:ignore",
+]
+exclude = "package.lock.json"
+priority = 20
+
+[[repos]]
+repo = "https://github.com/semgrep/pre-commit"
+rev = "v1.153.0"
+
+[[repos.hooks]]
+id = "semgrep"
+name = "run Semgrep rules"
+pass_filenames = false
+always_run = true
+stages = ["pre-push", "manual"]
+args = ["--config", "auto", "--error", "--skip-unknown-extensions"]
+priority = 30
+
+[[repos]]
+repo = "local"
+
+[[repos.hooks]]
+id = "pytest"
+name = "run test suite"
+entry = "uv run pytest"
+language = "system"
+pass_filenames = false
+always_run = true
+stages = ["pre-push", "manual"]
+args = ["tests"]
+priority = 30
