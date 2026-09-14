@@ -134,18 +134,6 @@ args = []
 priority = 7
 
 [[repos]]
-repo = "https://github.com/codespell-project/codespell"
-rev = "v2.4.3"
-
-[[repos.hooks]]
-id = "codespell"
-name = "detect common misspellings"
-description = "Check for common misspellings"
-files = "^.*\\.(py|c|h|md|rst|ya?ml|toml)$"
-additional_dependencies = ["tomli"]
-priority = 20
-
-[[repos]]
 repo = "https://github.com/koalaman/shellcheck-precommit"
 rev = "v0.11.0"
 
@@ -161,20 +149,14 @@ priority = 20
 repo = "local"
 
 [[repos.hooks]]
-id = "mypy"
+id = "pyrefly"
 name = "type-check Python"
-entry = "uv run mypy"
+entry = "uv run pyrefly check"
 language = "system"
 pass_filenames = false
 always_run = true
 stages = ["pre-push", "manual"]
 types = ["python"]
-args = [
-    "--config-file=./mypy.ini",
-    "--install-types",
-    "--non-interactive",
-    "src/",
-]
 priority = 30
 
 [[repos]]

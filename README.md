@@ -3,8 +3,7 @@
 A batteries-included starting point for Python 3.12+ projects with a curated
 toolchain: [uv](https://docs.astral.sh/uv/) for package management,
 [ruff](https://docs.astral.sh/ruff/) for linting and formatting,
-[mypy](https://mypy.readthedocs.io/), [ty](https://docs.astral.sh/ty/), or
-[pyrefly](https://pyrefly.org/) for type-checking (choose one),
+[pyrefly](https://pyrefly.org/) for type-checking,
 [pytest](https://docs.pytest.org/) for testing, and
 [prek](https://prek.j178.dev/) for Git hooks — all wired together with
 [just](https://just.systems/) recipes.
@@ -34,28 +33,85 @@ just run         # run the application
 
 ## Choices and defaults
 
-This template includes two optional tools that require a decision:
+Defaults are wired in the Justfile and hooks. Each can be swapped —
+snippets below.
 
 ### Git hooks
 
-**prek** (default) is the active hook runner — configured in `prek.toml`.
-An alternative **pre-commit** config is maintained in
-[`docs/.pre-commit-config.yaml`](docs/.pre-commit-config.yaml) for reference
-or if you prefer pre-commit over prek.
+| Option          | Runner                                | Config                         | Setup                                   | Run                          |
+| --------------- | ------------------------------------- | ------------------------------ | --------------------------------------- | ---------------------------- |
+| **A (default)** | [prek](https://prek.j178.dev/)        | `prek.toml`                    | `just init`                             | `just check`                 |
+| **B**           | [pre-commit](https://pre-commit.com/) | `docs/.pre-commit-config.yaml` | copy to root, then `pre-commit install` | `pre-commit run --all-files` |
+
+> **Both runners can read either file:**
+> `uv run prek run --config docs/.pre-commit-config.yaml --all-files`
+
+Keep whichever file you choose in sync when bumping hook revisions.
 
 ### Type checker
 
-Pick **one** — running multiple type checkers on the same codebase produces
-conflicting noise:
+Default: [pyrefly](https://pyrefly.org/) — `just type-check`,
+pre-push hook via `prek.toml`.
 
-| Tool | Config | Recipe | Notes |
-| --- | --- | --- | --- |
-| [mypy](https://mypy.readthedocs.io/) | `mypy.ini` | `just type-check-mypy` | Runs automatically as a pre-push hook |
-| [ty](https://docs.astral.sh/ty/) | `ty.toml` | `just type-check-ty` | |
-| [pyrefly](https://pyrefly.org/) | `pyrefly.toml` | `just type-check-pyrefly` | |
+| Tool                  | Config         | Recipe                 | Hooks    |
+| --------------------- | -------------- | ---------------------- | -------- |
+| **pyrefly (default)** | `pyrefly.toml` | `just type-check`      | pre-push |
+| mypy                  | `mypy.ini`     | `just type-check-mypy` | pre-push |
+| ty                    | `ty.toml`      | `just type-check-ty`   | pre-push |
 
-All three are installed as dev dependencies so the choice is which one to
-**run**, not which one to install.
+**Swap to mypy** — replace the recipe and hook:
+
+```toml
+# Justfile
+type-check:
+    uv run mypy src/python_project_template/
+```
+
+```toml
+# prek.toml (local hook)
+id = "mypy"
+entry = "uv run mypy"
+args = [
+  "--config-file=./mypy.ini",
+  "--install-types",
+  "--non-interactive",
+  "src/",
+]
+```
+
+**Swap to ty** — same pattern:
+
+```toml
+# Justfile
+type-check:
+    uv run ty check
+```
+
+```toml
+# prek.toml (local hook)
+id = "ty"
+entry = "uv run ty check"
+```
+
+Remove the tools you don't use from `pyproject.toml` dev-dependencies.
+
+### Spell checker
+
+Default: [typos](https://github.com/crate-ci/typos) — runs on every commit.
+
+**Swap to codespell** — replace the hook block in `prek.toml`:
+
+```toml
+[[repos]]
+repo = "https://github.com/codespell-project/codespell"
+rev = "v2.4.3"
+
+[[repos.hooks]]
+id = "codespell"
+name = "detect common misspellings"
+files = "^.*\\.(py|c|h|md|rst|ya?ml|toml)$"
+additional_dependencies = ["tomli"]
+```
 
 ## Development
 
@@ -68,7 +124,7 @@ Run `just` (no arguments) to list all available recipes.
 | `just test`         | Run the test suite                                                    |
 | `just lint`         | Auto-fix lint issues and format code with ruff                        |
 | `just check`        | Run all prek hooks on every file                                      |
-| `just type-check-pyrefly` | Type-check with pyrefly (see [type checker choice](#type-checker)) |
+| `just type-check`   | Type-check with pyrefly (see [type checker choice](#type-checker))    |
 | `just hooks-update` | Update hook revisions with a 7-day cooldown                           |
 | `just update`       | Upgrade and re-lock all dependencies                                  |
 | `just clean`        | Remove `.venv`, caches, and `__pycache__` directories                 |
@@ -78,23 +134,14 @@ Run `just` (no arguments) to list all available recipes.
 ## Testing and code quality
 
 ```bash
-just test     # pytest
-just lint     # ruff check --fix + ruff format
-just check    # prek run --all-files (ruff, shellcheck, detect-secrets, …)
+just test       # pytest
+just lint       # ruff check --fix + ruff format
+just check      # prek run --all-files (ruff, shellcheck, typos, detect-secrets, …)
+just type-check # pyrefly check
 ```
 
-### Type-checking
-
-Type-checking is provided by three tools — choose **one**:
-
-- **mypy** (configured in `mypy.ini`): runs as a pre-push hook via
-    `just type-check-mypy`.
-- **ty** (configured in `ty.toml`): run with `just type-check-ty`.
-- **pyrefly** (configured in `pyrefly.toml`): run with `just type-check-pyrefly`.
-
-Running more than one produces conflicting noise — stick with the one you
-prefer and remove the others from `pyproject.toml` dev-dependencies if you
-want a cleaner install.
+See [Choices and defaults](#choices-and-defaults) for swap-in instructions
+for mypy, ty, or codespell.
 
 ## Docker
 

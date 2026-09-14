@@ -1,5 +1,11 @@
 minimum_pre_commit_version: "3.2.0"
 
+# Mirror of prek.toml in pre-commit format.
+# Usage:
+#   - classic pre-commit: copy to repo root as .pre-commit-config.yaml
+#   - prek: uv run prek run --config docs/.pre-commit-config.yaml --all-files
+# Keep revs in sync with prek.toml when updating hooks.
+
 default_language_version:
   python: python3.12
 
@@ -77,8 +83,8 @@ repos:
           # Optional: format fenced shell code blocks inside Markdown.
           # - mdformat-shfmt
 
-  # Pick ONE spell checker by default. Keeping both enabled usually creates noise.
-  # Spelling checker Opt 1
+  # Spell checker (typos)
+  # codespell is also popular; swap the block below if preferred.
   - repo: https://github.com/crate-ci/typos
     rev: v1.50.1
     hooks:
@@ -86,16 +92,6 @@ repos:
         name: detect common misspellings
         description: "Check for common misspellings"
         # The default hook writes fixes. Use args: [] for report-only mode.
-
-  # Spelling checker Opt 2
-  - repo: https://github.com/codespell-project/codespell
-    rev: v2.4.3
-    hooks:
-      - id: codespell
-        name: detect common misspellings
-        description: "Check for common misspellings"
-        files: ^.*\.(py|c|h|md|rst|ya?ml|toml)$
-        additional_dependencies: [tomli]
 
   # Static analysis tool for shell scripts.
   - repo: https://github.com/koalaman/shellcheck-precommit
@@ -107,21 +103,17 @@ repos:
         args: ["--severity=warning"]
         types_or: [shell, sh]
 
-  # Python static type checker
+  # Type-checker (pyrefly, default)
+  # To swap to mypy: change entry, add args below, update pyproject.toml dev-deps.
   - repo: local
     hooks:
-      - id: mypy
+      - id: pyrefly
         name: type-check Python
-        entry: uv run mypy
+        entry: uv run pyrefly check
         language: system
         pass_filenames: false
         stages: [pre-push, manual]
         types: [python]
-        args:
-          - --config-file=./mypy.ini
-          - --install-types
-          - --non-interactive
-          - src/
 
   # Find unused code in Python projects.
   - repo: https://github.com/jendrikseipp/vulture

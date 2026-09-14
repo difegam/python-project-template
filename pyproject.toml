@@ -22,7 +22,7 @@ build-backend = "hatchling.build"
 
 [dependency-groups]
 dev = [
-    # Type checkers: choose ONE (mypy or ty or pyrefly)
+    # Type checkers: pyrefly is default wired; swap to mypy or ty — see README
     "mypy>=1.15.0",
     "ty>=0.0.29",
     "pyrefly>=1.2.0",

@@ -45,21 +45,11 @@ test:
     echo "🧪 Testing app...! "
     @uv run pytest --tb=short -s tests/
 
-# ⚠ Type checker: choose ONE of type-check-ty, type-check-mypy, or type-check-pyrefly (not both)
+# Default type-checker: pyrefly. To swap: see README for mypy/ty one-liners.
 
-[doc("Type-check with ty — https://docs.astral.sh/ty/")]
+[doc("Type-check with pyrefly (default) — see README to swap to mypy/ty")]
 [group("code-quality")]
-type-check-ty:
-    uv run ty check
-
-[doc("Type-check with mypy — https://mypy.readthedocs.io/")]
-[group("code-quality")]
-type-check-mypy:
-    uv run mypy src/python_project_template/
-
-[doc("Type-check with pyrefly — https://pyrefly.org/")]
-[group("code-quality")]
-type-check-pyrefly:
+type-check:
     uv run pyrefly check
 
 [doc("Update project dependencies")]
