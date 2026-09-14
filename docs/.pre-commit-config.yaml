@@ -53,7 +53,7 @@ repos:
 
   # Ruff Python linter and formatter
   - repo: https://github.com/charliermarsh/ruff-pre-commit
-    rev: "v0.15.10"
+    rev: "v0.16.7"
     hooks:
       - id: ruff-check
         name: lint Python and apply safe fixes
@@ -80,7 +80,7 @@ repos:
   # Pick ONE spell checker by default. Keeping both enabled usually creates noise.
   # Spelling checker Opt 1
   - repo: https://github.com/crate-ci/typos
-    rev: v1.45.1
+    rev: v1
     hooks:
       - id: typos
         name: detect common misspellings
@@ -89,7 +89,7 @@ repos:
 
   # Spelling checker Opt 2
   - repo: https://github.com/codespell-project/codespell
-    rev: v2.4.2
+    rev: v2.4.3
     hooks:
       - id: codespell
         name: detect common misspellings
@@ -147,7 +147,7 @@ repos:
 
   # Scan your uv.lock file for dependencies with known vulnerabilities.
   - repo: https://github.com/owenlamont/uv-secure
-    rev: 0.17.1
+    rev: v0.17.2
     hooks:
       - id: uv-secure
         name: scan locked dependencies for known vulnerabilities
@@ -169,7 +169,7 @@ repos:
 
   # Semgrep - Security scanning
   - repo: https://github.com/semgrep/pre-commit
-    rev: v1.153.0
+    rev: v1.177.0
     hooks:
       - id: semgrep
         name: run Semgrep rules
