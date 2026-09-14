@@ -45,17 +45,22 @@ test:
     echo "🧪 Testing app...! "
     @uv run pytest --tb=short -s tests/
 
-# ⚠ Type checker: choose ONE of type-check-ty or type-check-mypy (not both)
+# ⚠ Type checker: choose ONE of type-check-ty, type-check-mypy, or type-check-pyrefly (not both)
 
-[doc("Type-check with ty (choose ty OR mypy, not both) — https://docs.astral.sh/ty/")]
+[doc("Type-check with ty — https://docs.astral.sh/ty/")]
 [group("code-quality")]
 type-check-ty:
     uv run ty check
 
-[doc("Type-check with mypy (choose mypy OR ty, not both) — https://mypy.readthedocs.io/")]
+[doc("Type-check with mypy — https://mypy.readthedocs.io/")]
 [group("code-quality")]
 type-check-mypy:
     uv run mypy src/python_project_template/
+
+[doc("Type-check with pyrefly — https://pyrefly.org/")]
+[group("code-quality")]
+type-check-pyrefly:
+    uv run pyrefly check
 
 [doc("Update project dependencies")]
 [group("development")]

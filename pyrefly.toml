@@ -11,7 +11,7 @@ project-excludes = [
 search-path = [".", "src"]
 use-ignore-files = true
 ignore-errors-in-generated-code = true
-python-version = "3.14"
+python-version = "3.12"
 untyped-def-behavior = "check-and-infer-return-type"
 
 [errors]

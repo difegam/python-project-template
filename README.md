@@ -3,8 +3,9 @@
 A batteries-included starting point for Python 3.12+ projects with a curated
 toolchain: [uv](https://docs.astral.sh/uv/) for package management,
 [ruff](https://docs.astral.sh/ruff/) for linting and formatting,
-[mypy](https://mypy.readthedocs.io/) and [ty](https://docs.astral.sh/ty/) for
-type-checking, [pytest](https://docs.pytest.org/) for testing, and
+[mypy](https://mypy.readthedocs.io/), [ty](https://docs.astral.sh/ty/), or
+[pyrefly](https://pyrefly.org/) for type-checking (choose one),
+[pytest](https://docs.pytest.org/) for testing, and
 [prek](https://prek.j178.dev/) for Git hooks — all wired together with
 [just](https://just.systems/) recipes.
 
@@ -31,8 +32,30 @@ just init        # install deps + prek hooks
 just run         # run the application
 ```
 
-The legacy `.pre-commit-config.yaml` workflow has been replaced with native
-`prek.toml` configuration.
+## Choices and defaults
+
+This template includes two optional tools that require a decision:
+
+### Git hooks
+
+**prek** (default) is the active hook runner — configured in `prek.toml`.
+An alternative **pre-commit** config is maintained in
+[`docs/.pre-commit-config.yaml`](docs/.pre-commit-config.yaml) for reference
+or if you prefer pre-commit over prek.
+
+### Type checker
+
+Pick **one** — running multiple type checkers on the same codebase produces
+conflicting noise:
+
+| Tool | Config | Recipe | Notes |
+| --- | --- | --- | --- |
+| [mypy](https://mypy.readthedocs.io/) | `mypy.ini` | `just type-check-mypy` | Runs automatically as a pre-push hook |
+| [ty](https://docs.astral.sh/ty/) | `ty.toml` | `just type-check-ty` | |
+| [pyrefly](https://pyrefly.org/) | `pyrefly.toml` | `just type-check-pyrefly` | |
+
+All three are installed as dev dependencies so the choice is which one to
+**run**, not which one to install.
 
 ## Development
 
@@ -45,6 +68,7 @@ Run `just` (no arguments) to list all available recipes.
 | `just test`         | Run the test suite                                                    |
 | `just lint`         | Auto-fix lint issues and format code with ruff                        |
 | `just check`        | Run all prek hooks on every file                                      |
+| `just type-check-pyrefly` | Type-check with pyrefly (see [type checker choice](#type-checker)) |
 | `just hooks-update` | Update hook revisions with a 7-day cooldown                           |
 | `just update`       | Upgrade and re-lock all dependencies                                  |
 | `just clean`        | Remove `.venv`, caches, and `__pycache__` directories                 |
@@ -59,34 +83,18 @@ just lint     # ruff check --fix + ruff format
 just check    # prek run --all-files (ruff, shellcheck, detect-secrets, …)
 ```
 
-### Why we replaced pre-commit with prek
+### Type-checking
 
-This template migrated from pre-commit to prek to keep the same hook ecosystem
-while improving local developer experience and hook runtime performance:
+Type-checking is provided by three tools — choose **one**:
 
-- **Compatibility-first migration**: prek is compatible with pre-commit style
-    hooks and supports migration to native `prek.toml`.
-- **Faster execution and setup**: prek is implemented as a single Rust binary
-    and documents significantly faster hook setup and execution.
-- **Better native features for this template**: built-in hooks (`repo = "builtin"`), hook priorities, and `auto-update --cooldown-days` align with
-    this repository's supply-chain hardening defaults.
+- **mypy** (configured in `mypy.ini`): runs as a pre-push hook via
+    `just type-check-mypy`.
+- **ty** (configured in `ty.toml`): run with `just type-check-ty`.
+- **pyrefly** (configured in `pyrefly.toml`): run with `just type-check-pyrefly`.
 
-References:
-
-- [prek: Why prek?](https://prek.j178.dev/#why-prek)
-- [prek: Differences from pre-commit](https://prek.j178.dev/diff/)
-- [prek: Benchmark](https://prek.j178.dev/benchmark/)
-- [prek: Compatibility](https://prek.j178.dev/compatibility/)
-- [pre-commit documentation](https://pre-commit.com/)
-
-Type-checking is provided by both **mypy** (configured in `mypy.ini`) and
-**ty** (configured in `ty.toml`). `mypy` runs as a pre-push hook, while `ty`
-remains available through `just type-check-ty`.
-
-The project uses native `prek.toml` configuration, Rust built-in hooks for the
-supported `pre-commit-hooks` checks, and a `just hooks-update` recipe that runs
-`prek auto-update --cooldown-days 7` to avoid immediately adopting brand-new
-hook releases.
+Running more than one produces conflicting noise — stick with the one you
+prefer and remove the others from `pyproject.toml` dev-dependencies if you
+want a cleaner install.
 
 ## Docker
 
